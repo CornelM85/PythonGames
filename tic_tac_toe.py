@@ -129,7 +129,7 @@ class TicTacToe(ctk.CTk):
         """
         self.__player = btn.cget('text')
         if self.__player is not None:
-            CTkMessagebox(title='Info', message=f'You choose "{self.__player}" to be your weapon!',
+            CTkMessagebox(master=self, title='Info', message=f'You choose "{self.__player}" to be your weapon!',
                           width=10, height=10, font=(15, 15))
 
             self.__computer = '0' if self.__player == 'X' else 'X'
@@ -153,7 +153,7 @@ class TicTacToe(ctk.CTk):
         """
         if self.__player is None:
             self.__player_window()
-            self.__game_difficulty.configure(state='disabled')
+            self.__game_difficulty.configure(state='disabled', text_color_disabled='white')
         else:
             btn.configure(text=self.__player, state='disabled', text_color_disabled='white')
             self.__inter_moves(state='disabled')
@@ -190,9 +190,9 @@ class TicTacToe(ctk.CTk):
 
                 elif self.__boxes[x].cget('text') == self.__boxes[y].cget('text') == self.__boxes[z].cget(
                         'text') == self.__computer:
-                    self.__boxes[x].configure(text_color_disabled='yellow')
-                    self.__boxes[y].configure(text_color_disabled='yellow')
-                    self.__boxes[z].configure(text_color_disabled='yellow')
+                    self.__boxes[x].configure(text_color_disabled='red')
+                    self.__boxes[y].configure(text_color_disabled='red')
+                    self.__boxes[z].configure(text_color_disabled='red')
                     self.__message_box('You lose!')
 
                     for btn in boxes_left:
@@ -214,34 +214,19 @@ class TicTacToe(ctk.CTk):
 
                 for x, y, z in self.__game_mode():
 
-                    if (self.__boxes[x].cget('text') == self.__boxes[y].cget('text') == self.__computer) and (
-                            self.__boxes[z].cget('text') == ''):
+                    if ((self.__boxes[x].cget('text') == self.__boxes[y].cget('text') != '') and
+                            (self.__boxes[z].cget('text') == '')):
                         self.__boxes[z].configure(text=self.__computer, state='disabled', text_color_disabled='white')
                         break
 
-                    elif (self.__boxes[x].cget('text') == self.__boxes[z].cget('text') == self.__computer) and (
-                            self.__boxes[y].cget('text') == ''):
-                        self.__boxes[y].configure(text=self.__computer, state='disabled', text_color_disabled='white')
-                        break
-
-                    elif (self.__boxes[y].cget('text') == self.__boxes[z].cget('text') == self.__computer) and (
-                            self.__boxes[x].cget('text') == ''):
+                    elif ((self.__boxes[y].cget('text') == self.__boxes[z].cget('text') != '') and
+                          (self.__boxes[x].cget('text') == '')):
                         self.__boxes[x].configure(text=self.__computer, state='disabled', text_color_disabled='white')
                         break
 
-                    elif (self.__boxes[x].cget('text') == self.__boxes[y].cget('text') == self.__player) and (
-                            self.__boxes[z].cget('text') == ''):
-                        self.__boxes[z].configure(text=self.__computer, state='disabled', text_color_disabled='white')
-                        break
-
-                    elif (self.__boxes[x].cget('text') == self.__boxes[z].cget('text') == self.__player) and (
-                            self.__boxes[y].cget('text') == ''):
+                    elif ((self.__boxes[x].cget('text') == self.__boxes[z].cget('text') != '') and
+                          (self.__boxes[y].cget('text') == '')):
                         self.__boxes[y].configure(text=self.__computer, state='disabled', text_color_disabled='white')
-                        break
-
-                    elif (self.__boxes[y].cget('text') == self.__boxes[z].cget('text') == self.__player) and (
-                            self.__boxes[x].cget('text') == ''):
-                        self.__boxes[x].configure(text=self.__computer, state='disabled', text_color_disabled='white')
                         break
 
                     else:
