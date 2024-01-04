@@ -6,9 +6,29 @@ class SecretWordFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
-        self.box = ctk.CTkLabel(master=self, text='A', font=ctk.CTkFont(size=20))
+        self.keyboard_text = 'alb'.upper()
 
-        self.box.grid(row=0, column=0)
+        self.box = list(range(3))
+
+        self.text = 'Ala'.upper()
+
+        for i in range(len(self.text)):
+            self.box[i] = ctk.CTkLabel(master=self, text='*', font=ctk.CTkFont(size=20, underline=True))
+            self.box[i].grid(row=0, column=i)
+
+        for i in range(len(self.keyboard_text)):
+            self.btn = ctk.CTkButton(master=self, width=10, text=self.keyboard_text[i], font=ctk.CTkFont(size=10))
+            self.btn.bind('<Button-1>', self.on_click)
+            self.btn.grid(row=1, column=i)
+
+    def on_click(self, event):
+        # self.children.pop('[!ctkcanvas]')
+        print(event.widget.master.cget('text'))
+        # if str(event.widget).count('label') == 1:
+        #     text = event.widget.cget('text')
+        #     for i in range(len(self.text)):
+        #         if self.text[i] == text:
+        #             self.box[i].configure(text=text)
 
 
 class HangMan(ctk.CTk):
