@@ -6,29 +6,53 @@ class SecretWordFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
-        self.keyboard_text = 'alb'.upper()
+        self.text = 'sadasdsdas'.upper()
 
-        self.box = list(range(3))
-
-        self.text = 'Ala'.upper()
+        self.box = list(range(len(self.text)))
 
         for i in range(len(self.text)):
-            self.box[i] = ctk.CTkLabel(master=self, text='*', font=ctk.CTkFont(size=20, underline=True))
+            self.box[i] = ctk.CTkLabel(master=self, text='*', width=30, font=ctk.CTkFont(size=20, underline=True))
             self.box[i].grid(row=0, column=i)
 
+
+class KeyboardFrame(ctk.CTkFrame):
+    def __init__(self, master, **kwargs):
+        super().__init__(master, **kwargs)
+
+        self.frame = master.sc_wd_frame
+
+        self.keyboard_text = 'abcdefghijklmnopqrstuvwxyz'.upper()
+
         for i in range(len(self.keyboard_text)):
-            self.btn = ctk.CTkButton(master=self, width=10, text=self.keyboard_text[i], font=ctk.CTkFont(size=10))
+            self.btn = ctk.CTkButton(master=self, width=31, text=self.keyboard_text[i], font=ctk.CTkFont(size=15))
             self.btn.bind('<Button-1>', self.on_click)
-            self.btn.grid(row=1, column=i)
+            if i <= 12:
+                self.btn.grid(row=4, column=i)
+            else:
+                self.btn.grid(row=5, column=i-13)
 
     def on_click(self, event):
-        # self.children.pop('[!ctkcanvas]')
-        print(event.widget.master.cget('text'))
-        # if str(event.widget).count('label') == 1:
-        #     text = event.widget.cget('text')
-        #     for i in range(len(self.text)):
-        #         if self.text[i] == text:
-        #             self.box[i].configure(text=text)
+        text = event.widget.master.cget('text')
+        for i in range(len(self.frame.text)):
+            if self.frame.text[i] == text:
+                self.frame.box[i].configure(text=text)
+
+
+class Status(SecretWordFrame):
+    def __init__(self, master, **kwargs):
+        super().__init__(master, **kwargs)
+        count = 0
+        self.frame = master.sc_wd_frame
+        for i in range(len(self.frame.text)):
+
+            if self.frame.box[i].cget('text') != '*':
+                count += 1
+                print(count)
+            else:
+                count = 0
+
+        if count == len(self.frame.text):
+            CTkMessagebox(self, message='Evrika!')
 
 
 class HangMan(ctk.CTk):
@@ -41,6 +65,9 @@ class HangMan(ctk.CTk):
         self.configure(fg_color='#242424')
 
         self.title('HangMan')
+
+        self.grid_rowconfigure(index=1, minsize=10)
+
         self.__title_label = ctk.CTkLabel(self, text='HangMan',
                                           font=ctk.CTkFont(size=30, weight='bold'),
                                           text_color='white')
@@ -49,8 +76,14 @@ class HangMan(ctk.CTk):
 
         self.__root_center_screen(window_height=598, window_width=458)
 
-        self.myframe = SecretWordFrame(master=self)
-        self.myframe.grid(row=5, column=0, padx=20, pady=20, sticky='nsew')
+        self.sc_wd_frame = SecretWordFrame(master=self)
+        self.sc_wd_frame.grid(row=5, column=0, padx=20, pady=20, sticky='nsew')
+
+        self.kb_frame = KeyboardFrame(master=self)
+        self.kb_frame.grid(row=10, column=0, padx=20, pady=20, sticky='nsew')
+
+    def status_check(self):
+        pass
 
     def __root_center_screen(self, window_width: int, window_height: int):
         """
