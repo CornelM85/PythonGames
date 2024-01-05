@@ -2,6 +2,37 @@ import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
 
 
+class Score(ctk.CTkFrame):
+    def __init__(self, master, **kwargs):
+        super().__init__(master, **kwargs)
+
+        self.score = 0
+        self.attempt = ctk.StringVar(value='Try: 0')
+        self.remaining_tries = ctk.StringVar(value='Remaining tries: 10')
+
+        self.score_label = ctk.CTkLabel(self, text='Score: ' + str(self.score), font=ctk.CTkFont(size=15), height=10)
+        self.score_label.grid(row=0, column=0, sticky='e')
+
+        self.attempt_label = ctk.CTkLabel(self, textvariable=self.attempt, font=ctk.CTkFont(size=15), height=10)
+        self.attempt_label.grid(row=1, column=0, sticky='e')
+
+        self.rm_tr_label = ctk.CTkLabel(self, textvariable=self.remaining_tries, font=ctk.CTkFont(size=15), height=10)
+        self.rm_tr_label.grid(row=2, column=0, sticky='e')
+
+    def set_score(self):
+        self.score += 10
+
+    def set_attempt(self):
+        result = int(self.attempt.get().removeprefix('Try: '))
+        result += 1
+        self.attempt.set('Try: ' + str(result))
+
+    def set_remaining_tries(self):
+        result = int(self.remaining_tries.get().removeprefix('Remaining tries: '))
+        result -= 1
+        self.remaining_tries.set('Remaining tries: ' + str(result))
+
+
 class SecretWordFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
@@ -21,6 +52,8 @@ class KeyboardFrame(ctk.CTkFrame):
 
         self.frame = master.sc_wd_frame
 
+        self.sc_frame = master.score_frame
+
         self.keyboard_text = 'abcdefghijklmnopqrstuvwxyz'.upper()
 
         for i in range(len(self.keyboard_text)):
@@ -29,30 +62,30 @@ class KeyboardFrame(ctk.CTkFrame):
             if i <= 12:
                 self.btn.grid(row=4, column=i)
             else:
-                self.btn.grid(row=5, column=i-13)
+                self.btn.grid(row=5, column=i - 13)
 
     def on_click(self, event):
         text = event.widget.master.cget('text')
-        for i in range(len(self.frame.text)):
-            if self.frame.text[i] == text:
-                self.frame.box[i].configure(text=text)
+        self.sc_frame.set_attempt()
+        if text in self.frame.text:
+            for i in range(len(self.frame.text)):
+                if self.frame.text[i] == text:
+                    self.frame.box[i].configure(text=text)
 
+        else:
+            self.sc_frame.set_remaining_tries()
 
-class Status(SecretWordFrame):
-    def __init__(self, master, **kwargs):
-        super().__init__(master, **kwargs)
+        self.status()
+
+    def status(self):
         count = 0
-        self.frame = master.sc_wd_frame
         for i in range(len(self.frame.text)):
 
             if self.frame.box[i].cget('text') != '*':
                 count += 1
-                print(count)
-            else:
-                count = 0
 
         if count == len(self.frame.text):
-            CTkMessagebox(self, message='Evrika!')
+            CTkMessagebox(master=self.master, message='Evrika!')
 
 
 class HangMan(ctk.CTk):
@@ -76,14 +109,14 @@ class HangMan(ctk.CTk):
 
         self.__root_center_screen(window_height=598, window_width=458)
 
+        self.score_frame = Score(master=self)
+        self.score_frame.grid(row=4, column=0, padx=20, pady=20, sticky='e')
+
         self.sc_wd_frame = SecretWordFrame(master=self)
         self.sc_wd_frame.grid(row=5, column=0, padx=20, pady=20, sticky='nsew')
 
         self.kb_frame = KeyboardFrame(master=self)
         self.kb_frame.grid(row=10, column=0, padx=20, pady=20, sticky='nsew')
-
-    def status_check(self):
-        pass
 
     def __root_center_screen(self, window_width: int, window_height: int):
         """
