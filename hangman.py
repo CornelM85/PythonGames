@@ -40,11 +40,19 @@ class Score(ctk.CTkFrame):
         result = int(self.remaining_tries.get().removeprefix('Remaining tries: '))
         return result
 
+    def reset_score(self):
+        self.score.set(value='Score: 0')
+        self.attempt.set(value='Try: 0')
+        self.remaining_tries.set(value='Remaining tries: 5')
+
+
 class CategoryFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
-        self.choice = ''
+        self.ms = master
+
+        self.set_category = ''
 
         self.words_category = ['Animal', 'House', 'Space', 'Ocean']
 
@@ -55,7 +63,26 @@ class CategoryFrame(ctk.CTkFrame):
 
     def on_click(self, event):
         text = event.widget.master.cget('text')
-        self.choice = text
+        self.ms.score_frame.reset_score()
+        self.set_category = text
+        if text == 'Animal':
+            self.hide_sc_word()
+            self.show_sc_word()
+        elif text == 'House':
+            self.hide_sc_word()
+            self.show_sc_word()
+
+    def show_sc_word(self):
+        self.ms.sc_wd_frame = SecretWordFrame(master=self.ms, fg_color='#242424')
+        self.ms.sc_wd_frame.grid(row=3, column=0, padx=self.__pad_x(), pady=20, sticky='nsew')
+
+    def hide_sc_word(self):
+        self.ms.sc_wd_frame.destroy()
+
+    def __pad_x(self):
+        x = (458 - len(self.ms.sc_wd_frame.text) * 30) / 2
+        return x
+
 
 class SecretWordFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
@@ -63,7 +90,7 @@ class SecretWordFrame(ctk.CTkFrame):
 
         self.cat = master.category_frame
 
-        self.text = self.random_word()
+        self.text = self.set_text()
 
         self.box = list(range(len(self.text)))
 
@@ -71,23 +98,23 @@ class SecretWordFrame(ctk.CTkFrame):
             self.box[i] = ctk.CTkLabel(master=self, text='*', width=30, font=ctk.CTkFont(size=20, underline=True))
             self.box[i].grid(row=0, column=i)
 
+    def set_text(self):
+        result = self.animal_category()
+        if self.cat.set_category == 'House':
+            result = self.house_category()
+        print(result)
+        return result
 
-    def random_word(self):
+    def animal_category(self):
+        random_list = ['elephant', 'zebra', 'monkey', 'horse', 'shark', 'hippopotamus', 'giraffe', 'crocodile',
+                               'lion']
 
-        choice = ' '
+        return random.choice(random_list).upper()
 
-        if self.cat.choice == 'Animal':
+    def house_category(self):
+        random_list = ['chair', 'table']
 
-            random_list = ['elephant', 'zebra', 'monkey', 'horse', 'shark', 'hippopotamus', 'giraffe', 'crocodile', 'lion']
-
-            choice = random.choice(random_list).upper()
-
-        print(choice)
-
-        return choice
-
-
-
+        return random.choice(random_list).upper()
 
 
 class KeyboardFrame(ctk.CTkFrame):
@@ -189,6 +216,9 @@ class HangMan(ctk.CTk):
 
     def show_frame(self):
         self.sc_wd_frame.grid(row=3, column=0, padx=self.__pad_x(), pady=20, sticky='nsew')
+
+    def hide_frame(self):
+        self.sc_wd_frame.grid_forget()
 
 
 if __name__ == '__main__':
