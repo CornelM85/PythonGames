@@ -1,5 +1,4 @@
 import random
-
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
 
@@ -57,9 +56,9 @@ class CategoryFrame(ctk.CTkFrame):
 
         self.set_category = ''
 
-        self.words_category = ['Animal', 'House', 'Space', 'Ocean']
+        self.words_category = ['Animals', 'House', 'Space', 'Ocean', 'Sports', 'Cities']
 
-        for i in range(4):
+        for i in range(6):
             self.btn = ctk.CTkButton(master=self, text=self.words_category[i], width=40, font=ctk.CTkFont(size=15),
                                      cursor='hand2')
             self.btn.bind('<Button-1>', self.on_click)
@@ -69,8 +68,10 @@ class CategoryFrame(ctk.CTkFrame):
         text = event.widget.master.cget('text')
         self.ms.score_frame.reset_score()
         self.set_category = text
-        if text in ('Animal', 'House'):
-            self.refresh_sc_wd_frame()
+        if self.ms.info_label.winfo_exists():
+            self.ms.info_label.destroy()
+            self.ms.kb_frame.grid(row=5, column=0, padx=26, pady=20, sticky='nsew')
+        self.refresh_sc_wd_frame()
 
     def refresh_sc_wd_frame(self):
         self.ms.sc_wd_frame.destroy()
@@ -96,30 +97,37 @@ class SecretWordFrame(ctk.CTkFrame):
             self.box[i].grid(row=0, column=i)
 
     def set_text(self):
-        result = self.animal_category()
-        if self.cat.set_category == 'Animal':
-            result = self.animal_category()
+
+        if self.cat.set_category == 'Animals':
+            random_list = ['elephant', 'zebra', 'monkey', 'horse', 'donkey', 'lizard',
+                           'hippopotamus', 'giraffe', 'crocodile', 'lion', 'wolf']
 
         elif self.cat.set_category == 'House':
-            result = self.house_category()
+            random_list = ['chair', 'table', 'plate', 'wardrobe', 'convenience', 'kitchen',
+                           'bathroom', 'sofa', 'carpet', 'refrigerator', 'shower']
 
-        print(result)
+        elif self.cat.set_category == 'Ocean':
+            random_list = ['whale', 'walrus', 'penguin', 'dolphin', 'coral', 'shark',
+                           'turtle', 'shrimp', 'tide', 'waves', 'seagulls']
+
+        elif self.cat.set_category == 'Space':
+            random_list = ['pluto', 'mars', 'jupiter', 'neptune', 'saturn', 'venus',
+                           'milkyway', 'galaxy', 'stars', 'astronaut', 'satellite']
+
+        elif self.cat.set_category == 'Sports':
+            random_list = ['football', 'basketball', 'curling', 'swimming', 'handball', 'tennis',
+                           'gymnastics', 'fencing', 'rugby', 'cycling', 'snooker']
+
+        elif self.cat.set_category == 'Cities':
+            random_list = ['barcelona', 'berlin', 'washington', 'amsterdam', 'paris', 'brussels',
+                           'moscow', 'tokyo', 'beijing', 'stockholm', 'taiwan']
+
+        else:
+            random_list = [' ']
+
+        result = random.choice(random_list).upper()
+
         return result
-
-    def animal_category(self):
-        random_list = ['elephant', 'zebra', 'monkey', 'horse', 'shark',
-                       'hippopotamus', 'giraffe', 'crocodile', 'lion']
-
-        return random.choice(random_list).upper()
-
-    def house_category(self):
-        random_list = ['chair', 'table']
-
-        return random.choice(random_list).upper()
-
-    # def default(self):
-    #     default = 'Pick a category'
-    #     return default
 
 
 class KeyboardFrame(ctk.CTkFrame):
@@ -141,9 +149,11 @@ class KeyboardFrame(ctk.CTkFrame):
             else:
                 self.btn.grid(row=5, column=i - 13)
 
+        self.status()
+
     def on_click(self, event):
         char = event.widget.master.cget('text')
-        print(char)
+
         if char in self.ms.sc_wd_frame.text:
             for i in range(len(self.ms.sc_wd_frame.text)):
                 if self.ms.sc_wd_frame.text[i] == char:
@@ -154,8 +164,6 @@ class KeyboardFrame(ctk.CTkFrame):
             self.sc_frame.set_attempt()
             self.sc_frame.set_remaining_tries()
 
-        self.status()
-
     def status(self):
         count = 0
         for i in range(len(self.ms.sc_wd_frame.text)):
@@ -164,11 +172,21 @@ class KeyboardFrame(ctk.CTkFrame):
                 count += 1
 
         if count == len(self.ms.sc_wd_frame.text) and self.sc_frame.get_remaining_tries() > 0:
-            CTkMessagebox(master=self.master, message='Evrika!')
-
+            self.ms.category_frame.refresh_sc_wd_frame()
 
         elif self.sc_frame.get_remaining_tries() == 0:
-            CTkMessagebox(master=self.master, message='You lose!')
+            message = CTkMessagebox(master=self.master, title='Exit or Continue', icon='question',
+                                    message='You lose! Exit the application or try again?', option_1='Yes',
+                                    option_2='No')
+            response = message.get()
+            if response == 'No':
+                self.ms.destroy()
+            else:
+                self.sc_frame.reset_score()
+                self.status()
+                return self.ms.category_frame.refresh_sc_wd_frame()
+
+        self.after(1000, lambda: self.status())
 
 
 class HangMan(ctk.CTk):
@@ -182,13 +200,11 @@ class HangMan(ctk.CTk):
 
         self.title('HangMan')
 
-        # self.grid_rowconfigure(index=1, minsize=10)
-
-        self.__title_label = ctk.CTkLabel(self, text='HangMan',
+        self.__title_label = ctk.CTkLabel(self, text='HangMan', width=458,
                                           font=ctk.CTkFont(size=30, weight='bold'),
                                           text_color='white')
 
-        self.__title_label.grid(padx=150, pady=(40, 20))
+        self.__title_label.grid(pady=(40, 20), sticky='nsew')
 
         self.__root_center_screen(window_height=598, window_width=458)
 
@@ -198,12 +214,14 @@ class HangMan(ctk.CTk):
         self.category_frame = CategoryFrame(master=self, fg_color='#242424')
         self.category_frame.grid(row=2, column=0, padx=26, pady=20, sticky='nsew')
 
+        self.info_label = ctk.CTkLabel(self, text='Choose a Category \n&  \nStart the Game  ', width=458,
+                                       font=ctk.CTkFont(size=20, slant='italic'), text_color='white',
+                                       fg_color='#242424')
+        self.info_label.grid(row=3, column=0, pady=20, sticky='nsew')
+
         self.sc_wd_frame = SecretWordFrame(master=self, fg_color='#242424')
-        self.sc_wd_frame.grid(row=3, column=0, padx=self.category_frame.pad_x(), pady=20, sticky='nsew')
 
         self.kb_frame = KeyboardFrame(master=self, fg_color='#242424')
-        self.kb_frame.grid(row=4, column=0, padx=26, pady=20, sticky='nsew')
-
 
     def __root_center_screen(self, window_width: int, window_height: int):
         """
