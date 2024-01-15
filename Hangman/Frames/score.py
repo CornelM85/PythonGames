@@ -43,6 +43,10 @@ class Score(ctk.CTkFrame):
         result = int(self.remaining_tries.get().removeprefix('Remaining tries: '))
         return result
 
+    def get_score(self):
+        result = int(int(self.score.get().removeprefix('Score: ')))
+        return result
+
     def reset_score(self):
         self.score.set(value='Score: 0')
         self.attempt.set(value='Try: 0')

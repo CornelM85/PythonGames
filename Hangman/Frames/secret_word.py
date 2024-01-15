@@ -6,7 +6,7 @@ class SecretWordFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
-        self.cat = master.category_frame
+        self.ms = master
 
         self.text = self.set_text()
 
@@ -17,27 +17,27 @@ class SecretWordFrame(ctk.CTkFrame):
 
     def set_text(self):
 
-        if self.cat.set_category == 'Animals':
+        if self.ms.category_frame.set_category == 'Animals':
             random_list = ['elephant', 'zebra', 'monkey', 'horse', 'donkey', 'lizard',
                            'hippopotamus', 'giraffe', 'crocodile', 'lion', 'wolf']
 
-        elif self.cat.set_category == 'House':
+        elif self.ms.category_frame.set_category == 'House':
             random_list = ['chair', 'table', 'plate', 'wardrobe', 'convenience', 'kitchen',
                            'bathroom', 'sofa', 'carpet', 'refrigerator', 'shower']
 
-        elif self.cat.set_category == 'Ocean':
+        elif self.ms.category_frame.set_category == 'Ocean':
             random_list = ['whale', 'walrus', 'penguin', 'dolphin', 'coral', 'shark',
                            'turtle', 'shrimp', 'tide', 'waves', 'seagulls']
 
-        elif self.cat.set_category == 'Space':
+        elif self.ms.category_frame.set_category == 'Space':
             random_list = ['pluto', 'mars', 'jupiter', 'neptune', 'saturn', 'venus',
                            'milkyway', 'galaxy', 'stars', 'astronaut', 'satellite']
 
-        elif self.cat.set_category == 'Sports':
+        elif self.ms.category_frame.set_category == 'Sports':
             random_list = ['football', 'basketball', 'curling', 'swimming', 'handball', 'tennis',
                            'gymnastics', 'fencing', 'rugby', 'cycling', 'snooker']
 
-        elif self.cat.set_category == 'Cities':
+        elif self.ms.category_frame.set_category == 'Cities':
             random_list = ['barcelona', 'berlin', 'washington', 'amsterdam', 'paris', 'brussels',
                            'moscow', 'tokyo', 'beijing', 'stockholm', 'taiwan']
 

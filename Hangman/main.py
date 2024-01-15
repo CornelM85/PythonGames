@@ -1,11 +1,12 @@
 import customtkinter as ctk
-from PIL import Image
 
 from Frames.category import CategoryFrame
 from Frames.keyboard import KeyboardFrame
 from Frames.score import Score
 from Frames.secret_word import SecretWordFrame
 from Frames.status import StatusImageFrame
+from Frames.info import InfoFrame
+
 
 class HangMan(ctk.CTk):
 
@@ -32,14 +33,8 @@ class HangMan(ctk.CTk):
         self.category_frame = CategoryFrame(master=self, fg_color='#242424')
         self.category_frame.grid(row=2, column=0, padx=26, pady=20, sticky='nsew')
 
-        self.image = ctk.CTkImage(Image.open('Images/click.png'), size=(60, 100))
-        self.image_label = ctk.CTkLabel(self, text='', image=self.image)
-        self.image_label.grid(row=3, column=0, pady=20, sticky='nsew')
-
-        self.info_label = ctk.CTkLabel(self, text='Choose a Category \n& \nStart the Game  ', width=458,
-                                       font=ctk.CTkFont(size=20, slant='italic'), text_color='white',
-                                       fg_color='#242424')
-        self.info_label.grid(row=4, column=0, pady=20, sticky='nsew')
+        self.info_frame = InfoFrame(master=self, fg_color='#242424')
+        self.info_frame.grid(row=4, column=0, sticky='nsew')
 
         self.status_frame = StatusImageFrame(master=self, fg_color='#242424')
 
