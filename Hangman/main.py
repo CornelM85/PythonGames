@@ -7,6 +7,7 @@ from Frames.score import Score
 from Frames.secret_word import SecretWordFrame
 from Frames.status import StatusImageFrame
 
+
 class HangMan(ctk.CTk):
 
     def __init__(self):
