@@ -11,6 +11,7 @@ class SecretWordFrame(ctk.CTkFrame):
         self.text = self.set_text()
 
         self.box = list(range(len(self.text)))
+
         for i in range(len(self.text)):
             self.box[i] = ctk.CTkLabel(master=self, text='*', width=30, font=ctk.CTkFont(size=20, underline=True))
             self.box[i].grid(row=0, column=i)
@@ -42,8 +43,16 @@ class SecretWordFrame(ctk.CTkFrame):
                            'moscow', 'tokyo', 'beijing', 'stockholm', 'taiwan']
 
         else:
-            random_list = [' ']
+            random_list = ['default']
 
-        result = random.choice(random_list).upper()
+        if not self.ms.category_frame.ls:
+            result = random.choice(random_list).upper()
+            return result
 
-        return result
+        else:
+            left_ls = list(set(random_list) - set(self.ms.category_frame.ls))
+            result = random.choice(left_ls).upper()
+            print(left_ls)
+            return result
+
+

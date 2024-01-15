@@ -8,7 +8,6 @@ from Frames.status import StatusImageFrame
 from Frames.info import InfoFrame
 
 
-
 class HangMan(ctk.CTk):
 
     def __init__(self):

@@ -10,6 +10,8 @@ class CategoryFrame(ctk.CTkFrame):
 
         self.set_category = ''
 
+        self.ls = []
+
         self.words_category = ['Animals', 'House', 'Space', 'Ocean', 'Sports', 'Cities']
 
         for i in range(6):
@@ -21,6 +23,7 @@ class CategoryFrame(ctk.CTkFrame):
     def on_click(self, event):
         text = event.widget.master.cget('text')
         self.ms.score_frame.reset_score()
+        self.ls = []
         self.set_category = text
         if self.ms.info_frame.winfo_exists():
             self.ms.info_frame.destroy()
@@ -29,11 +32,18 @@ class CategoryFrame(ctk.CTkFrame):
         self.refresh_sc_wd_frame()
 
     def refresh_sc_wd_frame(self):
-        self.ms.sc_wd_frame.destroy()
         self.ms.status_frame.update_image()
-        self.ms.sc_wd_frame = SecretWordFrame(master=self.ms, fg_color='#242424')
-        self.ms.sc_wd_frame.grid(row=3, column=0, padx=self.pad_x(), pady=20, sticky='nsew')
+        if not self.ms.sc_wd_frame.winfo_exists():
+            self.ms.sc_wd_frame.grid(row=3, column=0, padx=self.pad_x(), pady=20, sticky='nsew')
+        else:
+            self.ms.sc_wd_frame.destroy()
+            self.ms.sc_wd_frame = SecretWordFrame(master=self.ms, fg_color='#242424')
+            self.ms.sc_wd_frame.grid(row=3, column=0, padx=self.pad_x(), pady=20, sticky='nsew')
 
     def pad_x(self):
         x = (458 - len(self.ms.sc_wd_frame.text) * 30) / 2
         return x
+
+    def list_update(self):
+        self.ls.append(self.ms.sc_wd_frame.text.lower())
+        print(self.ls)

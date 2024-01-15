@@ -45,6 +45,7 @@ class KeyboardFrame(ctk.CTkFrame):
                 count += 1
 
         if count == len(self.ms.sc_wd_frame.text) and self.sc_frame.get_remaining_tries() > 0:
+            self.ms.category_frame.list_update()
             self.ms.category_frame.refresh_sc_wd_frame()
 
         elif self.sc_frame.get_remaining_tries() == 0:
@@ -56,7 +57,9 @@ class KeyboardFrame(ctk.CTkFrame):
                 self.ms.destroy()
             else:
                 self.sc_frame.reset_score()
+                self.ms.category_frame.ls = []
                 self.status()
                 return self.ms.category_frame.refresh_sc_wd_frame()
 
         self.after(1000, lambda: self.status())
+
