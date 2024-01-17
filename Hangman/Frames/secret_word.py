@@ -17,55 +17,59 @@ class SecretWordFrame(ctk.CTkFrame):
             self.box[i] = ctk.CTkLabel(master=self, text='*', width=30, font=ctk.CTkFont(size=20, underline=True))
             self.box[i].grid(row=0, column=i)
 
-    def set_text(self):
+    def get_list(self):
 
         if self.ms.category_frame.set_category == 'Animals':
 
-            random_list = ['lion', 'wolf', 'elephant', 'zebra', 'monkey', 'horse', 'donkey',
+            animal_list = ['lion', 'wolf', 'elephant', 'zebra', 'monkey', 'horse', 'donkey',
                            'lizard', 'hippopotamus', 'giraffe', 'crocodile', 'lion', 'wolf']
+            return animal_list
 
         elif self.ms.category_frame.set_category == 'House':
 
-            random_list = ['chair', 'table',  'plate', 'wardrobe', 'convenience', 'kitchen',
-                           'bathroom', 'sofa', 'carpet', 'refrigerator', 'shower']
+            house_list = ['chair', 'table', 'plate', 'wardrobe', 'convenience', 'kitchen',
+                          'bathroom', 'sofa', 'carpet', 'refrigerator', 'shower']
+            return house_list
 
         elif self.ms.category_frame.set_category == 'Ocean':
 
-            random_list = ['whale', 'walrus', 'penguin', 'dolphin', 'coral', 'shark',
-                           'turtle', 'shrimp', 'tide', 'waves', 'seagulls']
+            ocean_list = ['whale', 'walrus', 'penguin', 'dolphin', 'coral', 'shark',
+                          'turtle', 'shrimp', 'tide', 'waves', 'seagulls']
+            return ocean_list
 
         elif self.ms.category_frame.set_category == 'Space':
 
-            random_list = ['pluto', 'mars', 'jupiter', 'neptune', 'saturn', 'venus',
-                           'milkyway', 'galaxy', 'stars', 'astronaut', 'satellite']
+            space_list = ['pluto', 'mars', 'jupiter', 'neptune', 'saturn', 'venus',
+                          'milkyway', 'galaxy', 'stars', 'astronaut', 'satellite']
+            return space_list
 
         elif self.ms.category_frame.set_category == 'Sports':
 
-            random_list = ['football', 'basketball', 'curling', 'swimming', 'handball', 'tennis',
-                           'gymnastics', 'fencing', 'rugby', 'cycling', 'snooker']
+            sport_list = ['football', 'basketball', 'curling', 'swimming', 'handball', 'tennis',
+                          'gymnastics', 'fencing', 'rugby', 'cycling', 'snooker']
+            return sport_list
 
         elif self.ms.category_frame.set_category == 'Cities':
 
-            random_list = ['barcelona', 'berlin', 'washington', 'amsterdam', 'paris', 'brussels',
-                           'moscow', 'tokyo', 'beijing', 'stockholm', 'taiwan']
+            city_list = ['barcelona', 'berlin', 'washington', 'amsterdam', 'paris', 'brussels',
+                         'moscow', 'tokyo', 'beijing', 'stockholm', 'taiwan']
+            return city_list
 
         else:
-            random_list = ['default']
+
+            return ['default']
+
+    def set_text(self):
+        random_list = self.get_list()
 
         if not self.ms.category_frame.ls:
-
             result = random.choice(random_list).upper()
             return result
 
         else:
+            # left_ls = list(set(random_list) - set(self.ms.category_frame.ls))
 
-            left_ls = list(set(random_list) - set(self.ms.category_frame.ls))
-
-            if len(left_ls) == 1:
-
-                self.ms.category_frame.set_category = 'House'
-
-            if len(left_ls) == 0:
+            if len(random_list) == len(self.ms.category_frame.ls):
 
                 message = CTkMessagebox(master=self.ms, title='Continue', icon='question',
                                         message=f'You finished the {self.ms.category_frame.set_category} category! '
@@ -77,11 +81,14 @@ class SecretWordFrame(ctk.CTkFrame):
                     self.ms.destroy()
 
                 else:
+
+                    self.ms.category_frame.set_category = 'House'
+                    random_list = self.get_list()
                     self.ms.category_frame.ls = []
                     result = random.choice(random_list).upper()
                     return result
 
             else:
-
+                left_ls = list(set(random_list) - set(self.ms.category_frame.ls))
                 result = random.choice(left_ls).upper()
                 return result

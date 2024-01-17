@@ -37,7 +37,6 @@ class CategoryFrame(ctk.CTkFrame):
 
     def refresh_sc_wd_frame(self):
         self.ms.status_frame.update_image()
-        self.list_update()
 
         if not self.ms.sc_wd_frame.winfo_exists():
 
@@ -48,6 +47,8 @@ class CategoryFrame(ctk.CTkFrame):
             self.ms.sc_wd_frame.destroy()
             self.ms.sc_wd_frame = SecretWordFrame(master=self.ms, fg_color='#242424')
             self.ms.sc_wd_frame.grid(row=3, column=0, padx=self.pad_x(), pady=20, sticky='nsew')
+
+        self.list_update()
 
     def pad_x(self):
         x = (458 - len(self.ms.sc_wd_frame.text) * 30) / 2

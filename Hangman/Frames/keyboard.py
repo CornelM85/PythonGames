@@ -54,8 +54,7 @@ class KeyboardFrame(ctk.CTkFrame):
                 count += 1
 
         if (count == len(self.ms.sc_wd_frame.text) and
-                self.ms.score_frame.get_remaining_tries() > 0 and
-                self.ms.sc_wd_frame.text is not None):
+                self.ms.score_frame.get_remaining_tries() > 0):
 
             self.ms.category_frame.refresh_sc_wd_frame()
 
