@@ -15,6 +15,7 @@ class CategoryFrame(ctk.CTkFrame):
         self.words_category = ['Animals', 'House', 'Space', 'Ocean', 'Sports', 'Cities']
 
         for i in range(6):
+
             self.btn = ctk.CTkButton(master=self, text=self.words_category[i], width=40, font=ctk.CTkFont(size=15),
                                      cursor='hand2')
             self.btn.bind('<Button-1>', self.on_click)
@@ -25,17 +26,25 @@ class CategoryFrame(ctk.CTkFrame):
         self.ms.score_frame.reset_score()
         self.ls = []
         self.set_category = text
+
         if self.ms.info_frame.winfo_exists():
+
             self.ms.info_frame.destroy()
             self.ms.status_frame.grid(row=5, column=0, pady=10, sticky='nsew')
             self.ms.kb_frame.grid(row=6, column=0, padx=26, pady=20, sticky='nsew')
+
         self.refresh_sc_wd_frame()
 
     def refresh_sc_wd_frame(self):
         self.ms.status_frame.update_image()
+        self.list_update()
+
         if not self.ms.sc_wd_frame.winfo_exists():
+
             self.ms.sc_wd_frame.grid(row=3, column=0, padx=self.pad_x(), pady=20, sticky='nsew')
+
         else:
+
             self.ms.sc_wd_frame.destroy()
             self.ms.sc_wd_frame = SecretWordFrame(master=self.ms, fg_color='#242424')
             self.ms.sc_wd_frame.grid(row=3, column=0, padx=self.pad_x(), pady=20, sticky='nsew')

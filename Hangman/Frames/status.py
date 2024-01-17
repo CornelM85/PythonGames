@@ -17,27 +17,34 @@ class StatusImageFrame(ctk.CTkFrame):
 
     def set_path(self):
         if self.ms.score_frame.get_remaining_tries() == 4:
+
             set_path = 'Images/img_1.png'
 
         elif self.ms.score_frame.get_remaining_tries() == 3:
+
             set_path = 'Images/img_2.png'
 
         elif self.ms.score_frame.get_remaining_tries() == 2:
+
             set_path = 'Images/img_3.png'
 
         elif self.ms.score_frame.get_remaining_tries() == 1:
+
             set_path = 'Images/img_4.png'
 
         elif self.ms.score_frame.get_remaining_tries() == 0:
+
             set_path = 'Images/img_5.png'
 
         else:
+
             set_path = 'Images/img_0.png'
 
         return set_path
 
     def update_image(self):
         if self.ms.status_frame.winfo_exists():
+
             self.ms.status_frame.destroy()
             self.ms.status_frame = StatusImageFrame(master=self.ms, fg_color='#242424')
             self.ms.status_frame.grid(row=5, column=0, pady=10, sticky='nsew')

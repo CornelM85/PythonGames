@@ -8,17 +8,20 @@ class KeyboardFrame(ctk.CTkFrame):
 
         self.ms = master
 
-        self.sc_frame = master.score_frame
-
         self.keyboard_text = 'abcdefghijklmnopqrstuvwxyz'.upper()
 
         for i in range(len(self.keyboard_text)):
+
             self.btn = ctk.CTkButton(master=self, width=31, text=self.keyboard_text[i], font=ctk.CTkFont(size=15),
                                      cursor='hand2')
             self.btn.bind('<Button-1>', self.on_click)
+
             if i <= 12:
+
                 self.btn.grid(row=0, column=i)
+
             else:
+
                 self.btn.grid(row=1, column=i - 13)
 
         self.status()
@@ -27,14 +30,19 @@ class KeyboardFrame(ctk.CTkFrame):
         char = event.widget.master.cget('text')
 
         if char in self.ms.sc_wd_frame.text:
+
             for i in range(len(self.ms.sc_wd_frame.text)):
-                if self.ms.sc_wd_frame.text[i] == char:
+
+                if (self.ms.sc_wd_frame.text[i] == char and
+                        self.ms.sc_wd_frame.box[i].cget('text') == '*'):
+
                     self.ms.sc_wd_frame.box[i].configure(text=char)
-                    self.sc_frame.set_score()
+                    self.ms.score_frame.set_score()
 
         else:
-            self.sc_frame.set_attempt()
-            self.sc_frame.set_remaining_tries()
+
+            self.ms.score_frame.set_attempt()
+            self.ms.score_frame.set_remaining_tries()
             self.ms.status_frame.update_image()
 
     def status(self):
@@ -42,24 +50,31 @@ class KeyboardFrame(ctk.CTkFrame):
         for i in range(len(self.ms.sc_wd_frame.text)):
 
             if self.ms.sc_wd_frame.box[i].cget('text') != '*':
+
                 count += 1
 
-        if count == len(self.ms.sc_wd_frame.text) and self.sc_frame.get_remaining_tries() > 0:
-            self.ms.category_frame.list_update()
+        if (count == len(self.ms.sc_wd_frame.text) and
+                self.ms.score_frame.get_remaining_tries() > 0 and
+                self.ms.sc_wd_frame.text is not None):
+
             self.ms.category_frame.refresh_sc_wd_frame()
 
-        elif self.sc_frame.get_remaining_tries() == 0:
-            message = CTkMessagebox(master=self.master, title='Exit or Continue', icon='question',
+        elif self.ms.score_frame.get_remaining_tries() == 0:
+
+            message = CTkMessagebox(master=self.ms, title='Exit or Continue', icon='question',
                                     message='You lose! Exit the application or try again?', option_1='Yes',
                                     option_2='No')
             response = message.get()
+
             if response == 'No':
+
                 self.ms.destroy()
+
             else:
-                self.sc_frame.reset_score()
+
+                self.ms.score_frame.reset_score()
                 self.ms.category_frame.ls = []
                 self.status()
                 return self.ms.category_frame.refresh_sc_wd_frame()
 
         self.after(1000, lambda: self.status())
-

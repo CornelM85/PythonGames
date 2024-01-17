@@ -23,18 +23,21 @@ class Score(ctk.CTkFrame):
 
     def set_score(self):
         if self.get_remaining_tries() != 0:
+
             result = int(self.score.get().removeprefix('Score: '))
             result += 10
             self.score.set('Score: ' + str(result))
 
     def set_attempt(self):
         if self.get_remaining_tries() != 0:
+
             result = int(self.attempt.get().removeprefix('Try: '))
             result += 1
             self.attempt.set('Try: ' + str(result))
 
     def set_remaining_tries(self):
         if self.get_remaining_tries() != 0:
+
             result = int(self.remaining_tries.get().removeprefix('Remaining tries: '))
             result -= 1
             self.remaining_tries.set('Remaining tries: ' + str(result))
