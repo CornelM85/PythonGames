@@ -1,5 +1,9 @@
 import customtkinter as ctk
+from CTkMessagebox import CTkMessagebox
+
+from .keyboard import KeyboardFrame
 from .secret_word import SecretWordFrame
+from .status import StatusImageFrame
 
 
 class CategoryFrame(ctk.CTkFrame):
@@ -8,7 +12,7 @@ class CategoryFrame(ctk.CTkFrame):
 
         self.ms = master
 
-        self.set_category = ''
+        self.category = ''
 
         self.ls = []
 
@@ -25,7 +29,7 @@ class CategoryFrame(ctk.CTkFrame):
         text = event.widget.master.cget('text')
         self.ms.score_frame.reset_score()
         self.ls = []
-        self.set_category = text
+        self.category = text
 
         if self.ms.info_frame.winfo_exists():
 
@@ -57,3 +61,12 @@ class CategoryFrame(ctk.CTkFrame):
     def list_update(self):
         self.ls.append(self.ms.sc_wd_frame.text.lower())
         print(self.ls)
+
+    def get_next_category(self):
+        index = self.words_category.index(self.category)
+        self.words_category.pop(index)
+
+        if self.words_category:
+
+            self.category = self.words_category[0]
+            return self.category

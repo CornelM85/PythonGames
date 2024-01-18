@@ -35,7 +35,6 @@ class KeyboardFrame(ctk.CTkFrame):
 
                 if (self.ms.sc_wd_frame.text[i] == char and
                         self.ms.sc_wd_frame.box[i].cget('text') == '*'):
-
                     self.ms.sc_wd_frame.box[i].configure(text=char)
                     self.ms.score_frame.set_score()
 
@@ -50,13 +49,18 @@ class KeyboardFrame(ctk.CTkFrame):
         for i in range(len(self.ms.sc_wd_frame.text)):
 
             if self.ms.sc_wd_frame.box[i].cget('text') != '*':
-
                 count += 1
 
         if (count == len(self.ms.sc_wd_frame.text) and
                 self.ms.score_frame.get_remaining_tries() > 0):
-
-            self.ms.category_frame.refresh_sc_wd_frame()
+            if (len(self.ms.category_frame.words_category) == 1
+                    and len(self.ms.sc_wd_frame.get_list()) - len(self.ms.category_frame.ls) == 0):
+                self.ms.sc_wd_frame.restart_game()
+            elif (len(self.ms.category_frame.words_category) != 1
+                    and len(self.ms.sc_wd_frame.get_list()) - len(self.ms.category_frame.ls) == 0):
+                self.ms.sc_wd_frame.next_category()
+            else:
+                self.ms.category_frame.refresh_sc_wd_frame()
 
         elif self.ms.score_frame.get_remaining_tries() == 0:
 
