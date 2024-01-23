@@ -28,10 +28,10 @@ class HangMan(ctk.CTk):
         self.__root_center_screen(window_height=598, window_width=458)
 
         self.score_frame = Score(master=self, fg_color='#242424')
-        self.score_frame.grid(row=1, column=0, padx=27, pady=20, sticky='e')
+        self.score_frame.grid(row=1, column=0, padx=27, pady=15, sticky='e')
 
         self.category_frame = CategoryFrame(master=self, fg_color='#242424')
-        self.category_frame.grid(row=2, column=0, padx=26, pady=20, sticky='nsew')
+        self.category_frame.grid(row=2, column=0, padx=15, pady=15, sticky='nsew')
 
         self.info_frame = InfoFrame(master=self, fg_color='#242424')
         self.info_frame.grid(row=4, column=0, sticky='nsew')

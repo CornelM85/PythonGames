@@ -1,3 +1,5 @@
+import time
+
 import customtkinter as ctk
 from PIL import Image
 
@@ -14,6 +16,11 @@ class StatusImageFrame(ctk.CTkFrame):
 
         self.status_image_label = ctk.CTkLabel(self, text='', image=self.image, width=458)
         self.status_image_label.grid(row=0, column=0)
+
+        self.category_chosen = ctk.CTkLabel(master=self, text_color='#3282F6',
+                                            text=f'Current category: {self.ms.category_frame.category.upper()}',
+                                            font=ctk.CTkFont(size=15))
+        self.category_chosen.grid(row=1, column=0, pady=10)
 
     def set_path(self):
         if self.ms.score_frame.get_remaining_tries() == 4:

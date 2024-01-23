@@ -1,9 +1,5 @@
 import customtkinter as ctk
-from CTkMessagebox import CTkMessagebox
-
-from .keyboard import KeyboardFrame
 from .secret_word import SecretWordFrame
-from .status import StatusImageFrame
 
 
 class CategoryFrame(ctk.CTkFrame):
@@ -16,12 +12,13 @@ class CategoryFrame(ctk.CTkFrame):
 
         self.ls = []
 
-        self.words_category = ['Animals', 'House', 'Space', 'Ocean', 'Sports', 'Cities']
+        self.words_category = ['Animals', 'House', 'Ocean', 'Space', 'Sports', 'Cities']
 
         for i in range(6):
 
-            self.btn = ctk.CTkButton(master=self, text=self.words_category[i], width=40, font=ctk.CTkFont(size=15),
-                                     cursor='hand2')
+            self.btn = ctk.CTkButton(master=self, text=self.words_category[i], width=40,
+                                     font=ctk.CTkFont(size=15, weight='bold'), cursor='hand2', hover_color='#242424',
+                                     fg_color='#874B2D', height=10)
             self.btn.bind('<Button-1>', self.on_click)
             self.btn.grid(row=0, column=i, padx=5)
 
@@ -35,7 +32,7 @@ class CategoryFrame(ctk.CTkFrame):
 
             self.ms.info_frame.destroy()
             self.ms.status_frame.grid(row=5, column=0, pady=10, sticky='nsew')
-            self.ms.kb_frame.grid(row=6, column=0, padx=26, pady=20, sticky='nsew')
+            self.ms.kb_frame.grid(row=6, column=0, padx=27, pady=15, sticky='nsew')
 
         self.refresh_sc_wd_frame()
 
@@ -44,13 +41,13 @@ class CategoryFrame(ctk.CTkFrame):
 
         if not self.ms.sc_wd_frame.winfo_exists():
 
-            self.ms.sc_wd_frame.grid(row=3, column=0, padx=self.pad_x(), pady=20, sticky='nsew')
+            self.ms.sc_wd_frame.grid(row=3, column=0, padx=self.pad_x(), pady=15, sticky='nsew')
 
         else:
 
             self.ms.sc_wd_frame.destroy()
             self.ms.sc_wd_frame = SecretWordFrame(master=self.ms, fg_color='#242424')
-            self.ms.sc_wd_frame.grid(row=3, column=0, padx=self.pad_x(), pady=20, sticky='nsew')
+            self.ms.sc_wd_frame.grid(row=3, column=0, padx=self.pad_x(), pady=15, sticky='nsew')
 
         self.list_update()
 
@@ -60,7 +57,6 @@ class CategoryFrame(ctk.CTkFrame):
 
     def list_update(self):
         self.ls.append(self.ms.sc_wd_frame.text.lower())
-        print(self.ls)
 
     def get_next_category(self):
         index = self.words_category.index(self.category)

@@ -2,10 +2,6 @@ import random
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
 
-from Hangman.Frames.info import InfoFrame
-from Hangman.Frames.keyboard import KeyboardFrame
-from Hangman.Frames.status import StatusImageFrame
-
 
 class SecretWordFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
@@ -26,7 +22,7 @@ class SecretWordFrame(ctk.CTkFrame):
         if self.ms.category_frame.category == 'Animals':
 
             animal_list = ['lion', 'wolf', 'elephant', 'zebra', 'monkey', 'horse', 'donkey',
-                           'lizard', 'hippopotamus', 'giraffe', 'crocodile', 'lion', 'wolf']
+                           'lizard', 'hippopotamus', 'giraffe', 'crocodile', 'tiger', 'bear']
             return animal_list
 
         elif self.ms.category_frame.category == 'House':
@@ -72,15 +68,14 @@ class SecretWordFrame(ctk.CTkFrame):
 
         else:
             left_ls = list(set(random_list) - set(self.ms.category_frame.ls))
-            if len(left_ls) != 0:
-                result = random.choice(left_ls).upper()
-                return result
+            result = random.choice(left_ls).upper()
+            return result
 
     def restart_game(self):
 
         message = CTkMessagebox(master=self.ms, title='Restart', icon='question',
-                                message=f'You finished the Game! '
-                                        f'Restart the Game?', option_1='Yes', option_2='No')
+                                message=f'You finished the Game!\n Restart the Game?',
+                                width=430, option_1='Yes', option_2='No', cancel_button='No')
         response = message.get()
 
         if response == 'No':
@@ -88,6 +83,7 @@ class SecretWordFrame(ctk.CTkFrame):
             self.ms.destroy()
 
         else:
+            self.ms.category_frame.words_category = ['Animals', 'House', 'Ocean', 'Space', 'Sports', 'Cities']
             self.ms.category_frame.category = 'Animals'
             self.ms.category_frame.ls = []
             self.ms.score_frame.reset_score()
@@ -96,8 +92,9 @@ class SecretWordFrame(ctk.CTkFrame):
     def next_category(self):
 
         message = CTkMessagebox(master=self.ms, title='Continue', icon='question',
-                                message=f'You finished the {self.ms.category_frame.category} category! '
-                                        f'Continue with the next category?', option_1='Yes', option_2='No')
+                                message=f'You finished the "{self.ms.category_frame.category.upper()}" category!\n'
+                                        f'Continue with the next category?', width=430,
+                                option_1='Yes', option_2='No', cancel_button='No')
         response = message.get()
 
         if response == 'No':

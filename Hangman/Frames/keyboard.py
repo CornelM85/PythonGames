@@ -13,7 +13,7 @@ class KeyboardFrame(ctk.CTkFrame):
         for i in range(len(self.keyboard_text)):
 
             self.btn = ctk.CTkButton(master=self, width=31, text=self.keyboard_text[i], font=ctk.CTkFont(size=15),
-                                     cursor='hand2')
+                                     cursor='hand2', fg_color='#874B2D', hover_color='#242424')
             self.btn.bind('<Button-1>', self.on_click)
 
             if i <= 12:
@@ -35,7 +35,8 @@ class KeyboardFrame(ctk.CTkFrame):
 
                 if (self.ms.sc_wd_frame.text[i] == char and
                         self.ms.sc_wd_frame.box[i].cget('text') == '*'):
-                    self.ms.sc_wd_frame.box[i].configure(text=char)
+
+                    self.ms.sc_wd_frame.box[i].configure(text=char, text_color='#3282F6')
                     self.ms.score_frame.set_score()
 
         else:
@@ -53,20 +54,26 @@ class KeyboardFrame(ctk.CTkFrame):
 
         if (count == len(self.ms.sc_wd_frame.text) and
                 self.ms.score_frame.get_remaining_tries() > 0):
+
             if (len(self.ms.category_frame.words_category) == 1
                     and len(self.ms.sc_wd_frame.get_list()) - len(self.ms.category_frame.ls) == 0):
+
                 self.ms.sc_wd_frame.restart_game()
+
             elif (len(self.ms.category_frame.words_category) != 1
                     and len(self.ms.sc_wd_frame.get_list()) - len(self.ms.category_frame.ls) == 0):
+
                 self.ms.sc_wd_frame.next_category()
+
             else:
+
                 self.ms.category_frame.refresh_sc_wd_frame()
 
         elif self.ms.score_frame.get_remaining_tries() == 0:
 
             message = CTkMessagebox(master=self.ms, title='Exit or Continue', icon='question',
-                                    message='You lose! Exit the application or try again?', option_1='Yes',
-                                    option_2='No')
+                                    message='You lose!\n Exit the application or try again?',
+                                    width=430, option_1='Yes', option_2='No', cancel_button='No')
             response = message.get()
 
             if response == 'No':

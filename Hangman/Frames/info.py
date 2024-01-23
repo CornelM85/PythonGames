@@ -12,4 +12,4 @@ class InfoFrame(ctk.CTkFrame):
 
         self.info_label = ctk.CTkLabel(self, text='Choose a Category \n& \nStart the Game  ', width=458,
                                        font=ctk.CTkFont(size=20, slant='italic'), text_color='white')
-        self.info_label.grid(row=1, column=0, pady=20, sticky='nsew')
+        self.info_label.grid(row=1, column=0, pady=15, sticky='nsew')

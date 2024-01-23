@@ -10,15 +10,15 @@ class Score(ctk.CTkFrame):
         self.remaining_tries = ctk.StringVar(value='Remaining tries: 5')
 
         self.score_label = ctk.CTkLabel(self, textvariable=self.score, font=ctk.CTkFont(size=15),
-                                        height=10, text_color='white')
+                                        height=10, text_color='#3282F6')
         self.score_label.grid(row=0, column=0, sticky='w')
 
         self.attempt_label = ctk.CTkLabel(self, textvariable=self.attempt, font=ctk.CTkFont(size=15),
-                                          height=10, text_color='white')
+                                          height=10, text_color='#3282F6')
         self.attempt_label.grid(row=1, column=0, sticky='w')
 
         self.rm_tr_label = ctk.CTkLabel(self, textvariable=self.remaining_tries, font=ctk.CTkFont(size=15),
-                                        height=10, text_color='white')
+                                        height=10, text_color='#3282F6')
         self.rm_tr_label.grid(row=2, column=0, sticky='w')
 
     def set_score(self):
