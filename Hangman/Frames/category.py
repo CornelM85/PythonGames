@@ -15,24 +15,23 @@ class CategoryFrame(ctk.CTkFrame):
         self.words_category = ['Animals', 'House', 'Ocean', 'Space', 'Sports', 'Cities']
 
         for i in range(6):
-
             self.btn = ctk.CTkButton(master=self, text=self.words_category[i], width=40,
                                      font=ctk.CTkFont(size=15, weight='bold'), cursor='hand2', hover_color='#242424',
                                      fg_color='#874B2D', height=10)
-            self.btn.bind('<Button-1>', self.on_click)
+            self.btn.bind('<Button-1>', self.__on_click)
             self.btn.grid(row=0, column=i, padx=5)
 
-    def on_click(self, event):
+    def __on_click(self, event):
         text = event.widget.master.cget('text')
         self.ms.score_frame.reset_score()
         self.ls = []
         self.category = text
 
         if self.ms.info_frame.winfo_exists():
-
             self.ms.info_frame.destroy()
-            self.ms.status_frame.grid(row=5, column=0, pady=10, sticky='nsew')
-            self.ms.kb_frame.grid(row=6, column=0, padx=27, pady=15, sticky='nsew')
+            self.ms.status_frame.grid(row=6, column=0, pady=10, sticky='nsew')
+            self.ms.kb_frame.grid(row=7, column=0, padx=27, pady=15, sticky='nsew')
+            self.__set_player_name()
 
         self.refresh_sc_wd_frame()
 
@@ -41,21 +40,21 @@ class CategoryFrame(ctk.CTkFrame):
 
         if not self.ms.sc_wd_frame.winfo_exists():
 
-            self.ms.sc_wd_frame.grid(row=3, column=0, padx=self.pad_x(), pady=15, sticky='nsew')
+            self.ms.sc_wd_frame.grid(row=4, column=0, padx=self.__pad_x(), pady=15, sticky='nsew')
 
         else:
 
             self.ms.sc_wd_frame.destroy()
             self.ms.sc_wd_frame = SecretWordFrame(master=self.ms, fg_color='#242424')
-            self.ms.sc_wd_frame.grid(row=3, column=0, padx=self.pad_x(), pady=15, sticky='nsew')
+            self.ms.sc_wd_frame.grid(row=4, column=0, padx=self.__pad_x(), pady=15, sticky='nsew')
 
-        self.list_update()
+        self.__list_update()
 
-    def pad_x(self):
+    def __pad_x(self):
         x = (458 - len(self.ms.sc_wd_frame.text) * 30) / 2
         return x
 
-    def list_update(self):
+    def __list_update(self):
         self.ls.append(self.ms.sc_wd_frame.text.lower())
 
     def get_next_category(self):
@@ -66,3 +65,35 @@ class CategoryFrame(ctk.CTkFrame):
 
             self.category = self.words_category[0]
             return self.category
+
+    def __set_player_name(self):
+        input_dialog = ctk.CTkInputDialog(title='Player Name', text='Enter name:')
+
+        self.__window_center_root(input_dialog, 300, 150)
+
+        name = input_dialog.get_input()
+
+        if name is None or not name.isalnum():
+
+            self.ms.top_score_frame.player_label.configure(text='Guest')
+
+        else:
+
+            self.ms.top_score_frame.player_label.configure(text=name)
+
+    def __window_center_root(self, window_name, width: int, height: int):
+        """
+        Center the window in the middle of the Application window
+        """
+        root_height = self.ms.winfo_height()
+        root_width = self.ms.winfo_width()
+
+        # window_height = 598, window_width = 458
+
+        root_x = self.ms.winfo_x()
+        root_y = self.ms.winfo_y()
+
+        x = int((root_width - width) / (2 * self.ms.scale_factor))
+        y = int((root_height - height) / 2)
+
+        window_name.geometry('{}x{}+{}+{}'.format(width, height, x + root_x, y + root_y))

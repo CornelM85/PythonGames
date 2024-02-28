@@ -6,6 +6,8 @@ from Frames.score import Score
 from Frames.secret_word import SecretWordFrame
 from Frames.status import StatusImageFrame
 from Frames.info import InfoFrame
+from Frames.top_score import TopScore
+import ctypes
 
 
 class HangMan(ctk.CTk):
@@ -13,28 +15,32 @@ class HangMan(ctk.CTk):
     def __init__(self):
         super().__init__()
 
+        self.scale_factor = ctypes.windll.shcore.GetScaleFactorForDevice(0) / 100
+
+        ctk.set_appearance_mode('dark')
+
         self.resizable(width=False, height=False)
 
-        self.configure(fg_color='#242424')
-
         self.title('HangMan')
+
+        self.top_score_frame = TopScore(master=self, fg_color='#242424')
+        self.top_score_frame.grid(row=0, pady=5, sticky='nsew')
 
         self.__title_label = ctk.CTkLabel(self, text='HangMan', width=458,
                                           font=ctk.CTkFont(size=30, weight='bold'),
                                           text_color='white')
-
-        self.__title_label.grid(pady=(40, 20), sticky='nsew')
+        self.__title_label.grid(row=1, pady=(0, 20), sticky='nsew')
 
         self.__root_center_screen(window_height=598, window_width=458)
 
         self.score_frame = Score(master=self, fg_color='#242424')
-        self.score_frame.grid(row=1, column=0, padx=27, pady=15, sticky='e')
+        self.score_frame.grid(row=2, column=0, padx=27, pady=15, sticky='e')
 
         self.category_frame = CategoryFrame(master=self, fg_color='#242424')
-        self.category_frame.grid(row=2, column=0, padx=15, pady=15, sticky='nsew')
+        self.category_frame.grid(row=3, column=0, padx=15, pady=15, sticky='nsew')
 
         self.info_frame = InfoFrame(master=self, fg_color='#242424')
-        self.info_frame.grid(row=4, column=0, sticky='nsew')
+        self.info_frame.grid(row=5, column=0, sticky='nsew')
 
         self.status_frame = StatusImageFrame(master=self, fg_color='#242424')
 
@@ -49,8 +55,8 @@ class HangMan(ctk.CTk):
         screen_width = self.winfo_screenwidth()
         screen_height = self.winfo_screenheight()
 
-        x_coordinate = int(screen_width / 2 - window_width / 2)
-        y_coordinate = int(screen_height / 2 - window_height / 2)
+        x_coordinate = int((screen_width - window_width) * self.scale_factor / 2)
+        y_coordinate = int((screen_height - window_height) / 2)
 
         self.geometry('{}x{}+{}+{}'.format(window_width, window_height, x_coordinate, y_coordinate))
 

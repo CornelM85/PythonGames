@@ -1,3 +1,4 @@
+import json
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
 
@@ -14,7 +15,7 @@ class KeyboardFrame(ctk.CTkFrame):
 
             self.btn = ctk.CTkButton(master=self, width=31, text=self.keyboard_text[i], font=ctk.CTkFont(size=15),
                                      cursor='hand2', fg_color='#874B2D', hover_color='#242424')
-            self.btn.bind('<Button-1>', self.on_click)
+            self.btn.bind('<Button-1>', self.__on_click)
 
             if i <= 12:
 
@@ -26,7 +27,7 @@ class KeyboardFrame(ctk.CTkFrame):
 
         self.status()
 
-    def on_click(self, event):
+    def __on_click(self, event):
         char = event.widget.master.cget('text')
 
         if char in self.ms.sc_wd_frame.text:
@@ -72,9 +73,11 @@ class KeyboardFrame(ctk.CTkFrame):
         elif self.ms.score_frame.get_remaining_tries() == 0:
 
             message = CTkMessagebox(master=self.ms, title='Exit or Continue', icon='question',
-                                    message='You lose!\n Exit the application or try again?',
+                                    message='You have no remaining tries!\nStart a new game?',
                                     width=430, option_1='Yes', option_2='No', cancel_button='No')
             response = message.get()
+
+            self.add_player_score_to_file()
 
             if response == 'No':
 
@@ -88,3 +91,16 @@ class KeyboardFrame(ctk.CTkFrame):
                 return self.ms.category_frame.refresh_sc_wd_frame()
 
         self.after(1000, lambda: self.status())
+
+    def add_player_score_to_file(self):
+        json_file = 'high_scorers.json'
+        name = self.ms.top_score_frame.player_label.cget('text')
+        score = self.ms.score_frame.get_score()
+        with open(json_file, 'r+') as write_file:
+            score_dict = json.load(write_file)
+            score_dict[name] = score
+            write_file.seek(0)
+            write_file.truncate()
+            json.dump(score_dict, write_file, indent=4)
+
+
