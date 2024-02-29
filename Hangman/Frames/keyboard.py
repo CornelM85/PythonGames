@@ -1,4 +1,4 @@
-import json
+import json, os.path
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
 
@@ -25,7 +25,7 @@ class KeyboardFrame(ctk.CTkFrame):
 
                 self.btn.grid(row=1, column=i - 13)
 
-        self.status()
+        # self.status()
 
     def __on_click(self, event):
         char = event.widget.master.cget('text')
@@ -45,6 +45,7 @@ class KeyboardFrame(ctk.CTkFrame):
             self.ms.score_frame.set_attempt()
             self.ms.score_frame.set_remaining_tries()
             self.ms.status_frame.update_image()
+        self.status()
 
     def status(self):
         count = 0
@@ -81,7 +82,7 @@ class KeyboardFrame(ctk.CTkFrame):
 
             if response == 'No':
 
-                self.ms.destroy()
+                self.ms.update()
 
             else:
 
@@ -90,17 +91,22 @@ class KeyboardFrame(ctk.CTkFrame):
                 self.status()
                 return self.ms.category_frame.refresh_sc_wd_frame()
 
-        self.after(1000, lambda: self.status())
+        # self.after(1000, lambda: self.status())
 
     def add_player_score_to_file(self):
         json_file = 'high_scorers.json'
         name = self.ms.top_score_frame.player_label.cget('text')
         score = self.ms.score_frame.get_score()
-        with open(json_file, 'r+') as write_file:
-            score_dict = json.load(write_file)
-            score_dict[name] = score
-            write_file.seek(0)
-            write_file.truncate()
-            json.dump(score_dict, write_file, indent=4)
+        self.__create_file(json_file)
+        with open(json_file, 'r+') as file:
+            score_dict = json.load(file)
+            score_dict[len(score_dict)] = {name: score}
+            file.seek(0)
+            file.truncate()
+            json.dump(score_dict, file, indent=4)
 
-
+    @staticmethod
+    def __create_file(file_name):
+        if not os.path.exists(file_name):
+            with open(file_name, 'x') as create_file:
+                json.dump({}, create_file)

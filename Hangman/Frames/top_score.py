@@ -33,52 +33,62 @@ class TopScore(ctk.CTkFrame):
 
         self.sort_descending_scores()
 
-        with open('high_scorers.json', 'r') as read_file:
+        with (open('high_scorers.json', 'r') as read_file):
             body = json.load(read_file)
+            values = body.values()
             i = 1
-            for name, score in body.items():
-                ctk.CTkLabel(window, width=70, text=f'{str(i)}. Player name:',
-                             font=ctk.CTkFont(size=15)).grid(row=0, column=0, padx=(10, 12), sticky='e')
-                ctk.CTkLabel(window, text=name, text_color='#3282F6',
-                             font=ctk.CTkFont(size=20)).grid(row=0, column=1)
-                ctk.CTkLabel(window, width=60, text='Score:',
-                             font=ctk.CTkFont(size=15)).grid(row=0, column=2, padx=(20, 0), sticky='e')
-                ctk.CTkLabel(window, text=score, text_color='#3282F6',
-                             font=ctk.CTkFont(size=20)).grid(row=0, column=3)
+            for dictionary in values:
+                for k, v in dictionary.items():
+                    self.add_scorers_labels(master=window, place_number=i, name=k, score=v)
+                    i += 1
+                    print(len(values))
+            if len(values) < 11:
+                k = ''
+                v = ''
+                for j in range(len(values)+1, 11):
+                    self.add_scorers_labels(master=window, place_number=j, name=k, score=v)
 
-        self.__window_center_root(window, 280, 200)
+            ctk.CTkButton(window, height=20, width=50, text='OK', font=ctk.CTkFont(size=10), cursor='hand2',
+                          fg_color='#874B2D', command=window.destroy).grid(row=11, columnspan=5, pady=5, sticky='e')
+
+        self.__window_center_root(window, width=400, height=320)
 
         window.wm_transient(self.ms)
 
     @staticmethod
     def sort_descending_scores():
-        score_dict: dict = {}
+        data: dict = {}
+        unsorted_ls: list = []
         json_file = 'high_scorers.json'
         if os.path.exists(json_file):
-            with open(json_file, 'r') as read_file:
-                x = json.load(read_file)
-                y = x.values()
-                values_list = sorted(y, reverse=True)
-                keys_list = list(x.keys())
+            with open(json_file, 'r+') as file:
+                file_data = json.load(file)
+                values_list = file_data.values()
 
-                for v in values_list:
-                    for k in keys_list:
-                        if x[k] == v:
-                            score_dict[k] = v
-            with open(json_file, 'w') as write_file:
-                json.dump(score_dict, write_file, indent=4)
+                for dictionary in values_list:
+                    for k, v in dictionary.items():
+                        unsorted_ls.append(v)
+
+                sorted_list = sorted(unsorted_ls, reverse=True)
+                for i in range(len(values_list)):
+                    for values in values_list:
+                        for key in values.keys():
+                            if values[key] == sorted_list[i]:
+                                data[i] = {key: sorted_list[i]}
+                file.seek(0)
+                file.truncate()
+                json.dump(data, file, indent=4)
         else:
             with open(json_file, 'x') as create_file:
-                json.dump(score_dict, create_file)
+                json.dump(data, create_file)
 
-    def __window_center_root(self, window_name, width: int, height: int):
+    def __window_center_root(self, window_name, width, height):
         """
         Center the window in the middle of the Application window
         """
+
         root_height = self.ms.winfo_height()
         root_width = self.ms.winfo_width()
-
-        # window_height = 598, window_width = 458
 
         root_x = self.ms.winfo_x()
         root_y = self.ms.winfo_y()
@@ -87,3 +97,17 @@ class TopScore(ctk.CTkFrame):
         y = int((root_height - height) / 2)
 
         window_name.geometry('{}x{}+{}+{}'.format(width, height, x + root_x, y + root_y))
+
+    @staticmethod
+    def add_scorers_labels(place_number, master, name, score):
+        ctk.CTkLabel(master, width=70, text=f'{str(place_number)}.  Player name:',
+                     font=ctk.CTkFont(size=15)).grid(row=place_number, column=0, padx=10)
+
+        ctk.CTkLabel(master, width=150, text=name, text_color='#3282F6', anchor='w',
+                     font=ctk.CTkFont(size=20)).grid(row=place_number, column=1)
+
+        ctk.CTkLabel(master, width=50, text='Score:', anchor='e',
+                     font=ctk.CTkFont(size=15)).grid(row=place_number, column=2)
+
+        ctk.CTkLabel(master, width=50, text=score, text_color='#3282F6', anchor='e',
+                     font=ctk.CTkFont(size=20)).grid(row=place_number, column=3)
