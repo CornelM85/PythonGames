@@ -87,21 +87,17 @@ class SecretWordFrame(ctk.CTkFrame):
             self.ms.category_frame.category = 'Animals'
             self.ms.category_frame.ls = []
             self.ms.score_frame.reset_score()
-            return self.ms.category_frame.refresh_sc_wd_frame()
+            self.ms.category_frame.refresh_sc_wd_frame()
 
     def next_category(self):
 
-        message = CTkMessagebox(master=self.ms, title='Continue', icon='question',
+        message = CTkMessagebox(master=self.ms, title='Category finished', icon='info',
                                 message=f'You finished the "{self.ms.category_frame.category.upper()}" category!\n'
-                                        f'Continue with the next category?', width=430,
-                                option_1='Yes', option_2='No', cancel_button='No')
+                                        f'You will continue with the next category!', width=400, height=100,
+                                option_1='Ok', cancel_button='Ok')
         response = message.get()
 
-        if response == 'No':
-
-            self.ms.destroy()
-
-        else:
+        if response == 'Ok':
 
             self.ms.category_frame.get_next_category()
             random_list = self.get_list()

@@ -1,6 +1,7 @@
-import os.path
 import json
 import customtkinter as ctk
+
+from Utility.static_functions import add_scorers_labels, sort_descending_scores
 
 
 class TopScore(ctk.CTkFrame):
@@ -31,22 +32,23 @@ class TopScore(ctk.CTkFrame):
 
         window.resizable(width=False, height=False)
 
-        self.sort_descending_scores()
+        sort_descending_scores()
 
         with (open('high_scorers.json', 'r') as read_file):
             body = json.load(read_file)
             values = body.values()
+
             i = 1
             for dictionary in values:
                 for k, v in dictionary.items():
-                    self.add_scorers_labels(master=window, place_number=i, name=k, score=v)
+                    add_scorers_labels(master=window, place_number=i, name=k, score=v)
                     i += 1
-                    print(len(values))
+
             if len(values) < 11:
                 k = ''
                 v = ''
                 for j in range(len(values)+1, 11):
-                    self.add_scorers_labels(master=window, place_number=j, name=k, score=v)
+                    add_scorers_labels(master=window, place_number=j, name=k, score=v)
 
             ctk.CTkButton(window, height=20, width=50, text='OK', font=ctk.CTkFont(size=10), cursor='hand2',
                           fg_color='#874B2D', command=window.destroy).grid(row=11, columnspan=5, pady=5, sticky='e')
@@ -55,37 +57,11 @@ class TopScore(ctk.CTkFrame):
 
         window.wm_transient(self.ms)
 
-    @staticmethod
-    def sort_descending_scores():
-        data: dict = {}
-        unsorted_ls: list = []
-        json_file = 'high_scorers.json'
-        if os.path.exists(json_file):
-            with open(json_file, 'r+') as file:
-                file_data = json.load(file)
-                values_list = file_data.values()
-
-                for dictionary in values_list:
-                    for k, v in dictionary.items():
-                        unsorted_ls.append(v)
-
-                sorted_list = sorted(unsorted_ls, reverse=True)
-                for i in range(len(values_list)):
-                    for values in values_list:
-                        for key in values.keys():
-                            if values[key] == sorted_list[i]:
-                                data[i] = {key: sorted_list[i]}
-                file.seek(0)
-                file.truncate()
-                json.dump(data, file, indent=4)
-        else:
-            with open(json_file, 'x') as create_file:
-                json.dump(data, create_file)
-
     def __window_center_root(self, window_name, width, height):
         """
         Center the window in the middle of the Application window
         """
+        multiplication_scale: int
 
         root_height = self.ms.winfo_height()
         root_width = self.ms.winfo_width()
@@ -93,21 +69,14 @@ class TopScore(ctk.CTkFrame):
         root_x = self.ms.winfo_x()
         root_y = self.ms.winfo_y()
 
-        x = int((root_width - width) / (2 * self.ms.scale_factor))
+        if self.ms.scale_factor == 1:
+            multiplication_scale = 2
+
+        else:
+            multiplication_scale = 4
+
+        x = int((root_width - width) / (self.ms.scale_factor * multiplication_scale))
         y = int((root_height - height) / 2)
 
         window_name.geometry('{}x{}+{}+{}'.format(width, height, x + root_x, y + root_y))
 
-    @staticmethod
-    def add_scorers_labels(place_number, master, name, score):
-        ctk.CTkLabel(master, width=70, text=f'{str(place_number)}.  Player name:',
-                     font=ctk.CTkFont(size=15)).grid(row=place_number, column=0, padx=10)
-
-        ctk.CTkLabel(master, width=150, text=name, text_color='#3282F6', anchor='w',
-                     font=ctk.CTkFont(size=20)).grid(row=place_number, column=1)
-
-        ctk.CTkLabel(master, width=50, text='Score:', anchor='e',
-                     font=ctk.CTkFont(size=15)).grid(row=place_number, column=2)
-
-        ctk.CTkLabel(master, width=50, text=score, text_color='#3282F6', anchor='e',
-                     font=ctk.CTkFont(size=20)).grid(row=place_number, column=3)

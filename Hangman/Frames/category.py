@@ -28,6 +28,7 @@ class CategoryFrame(ctk.CTkFrame):
         self.category = text
 
         if self.ms.info_frame.winfo_exists():
+
             self.ms.info_frame.destroy()
             self.ms.status_frame.grid(row=6, column=0, pady=10, sticky='nsew')
             self.ms.kb_frame.grid(row=7, column=0, padx=27, pady=15, sticky='nsew')
@@ -85,15 +86,23 @@ class CategoryFrame(ctk.CTkFrame):
         """
         Center the window in the middle of the Application window
         """
+        multiplication_scale: int
+
         root_height = self.ms.winfo_height()
         root_width = self.ms.winfo_width()
-
-        # window_height = 598, window_width = 458
 
         root_x = self.ms.winfo_x()
         root_y = self.ms.winfo_y()
 
-        x = int((root_width - width) / (2 * self.ms.scale_factor))
+        if self.ms.scale_factor == 1:
+
+            multiplication_scale = 2
+
+        else:
+
+            multiplication_scale = 4
+
+        x = int((root_width - width) / (self.ms.scale_factor * multiplication_scale))
         y = int((root_height - height) / 2)
 
         window_name.geometry('{}x{}+{}+{}'.format(width, height, x + root_x, y + root_y))

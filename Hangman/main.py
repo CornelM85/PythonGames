@@ -48,6 +48,8 @@ class HangMan(ctk.CTk):
 
         self.kb_frame = KeyboardFrame(master=self, fg_color='#242424')
 
+        self.protocol('WM_DELETE_WINDOW', self.close)
+
     def __root_center_screen(self, window_width: int, window_height: int):
         """
         Center the Application in the middle of the screen
@@ -59,6 +61,10 @@ class HangMan(ctk.CTk):
         y_coordinate = int((screen_height - window_height) / 2)
 
         self.geometry('{}x{}+{}+{}'.format(window_width, window_height, x_coordinate, y_coordinate))
+
+    def close(self):
+        self.kb_frame.add_player_score_to_file()
+        self.destroy()
 
 
 if __name__ == '__main__':
