@@ -22,6 +22,9 @@ class CategoryFrame(ctk.CTkFrame):
             self.btn.grid(row=0, column=i, padx=5)
 
     def __on_click(self, event):
+        """
+        Switches the category and resets the score
+        """
         text = event.widget.master.cget('text')
         self.ms.score_frame.reset_score()
         self.ls = []
@@ -32,11 +35,15 @@ class CategoryFrame(ctk.CTkFrame):
             self.ms.info_frame.destroy()
             self.ms.status_frame.grid(row=6, column=0, pady=10, sticky='nsew')
             self.ms.kb_frame.grid(row=7, column=0, padx=27, pady=15, sticky='nsew')
-            self.__set_player_name()
+            self.ms.top_score_frame.edit_name_button.grid(row=0, column=2)
+            self.ms.top_score_frame.set_player_name()
 
         self.refresh_sc_wd_frame()
 
     def refresh_sc_wd_frame(self):
+        """
+        Updates the status image and the secret word frame
+        """
         self.ms.status_frame.update_image()
 
         if not self.ms.sc_wd_frame.winfo_exists():
@@ -52,13 +59,24 @@ class CategoryFrame(ctk.CTkFrame):
         self.__list_update()
 
     def __pad_x(self):
+        """
+        Centers the text from the secret word frame
+        :return: int
+        """
         x = (458 - len(self.ms.sc_wd_frame.text) * 30) / 2
         return x
 
     def __list_update(self):
+        """
+        Updates the list of words used in the secret word frame
+        """
         self.ls.append(self.ms.sc_wd_frame.text.lower())
 
     def get_next_category(self):
+        """
+        Gets the next category list for play
+        :return: str
+        """
         index = self.words_category.index(self.category)
         self.words_category.pop(index)
 
@@ -67,42 +85,4 @@ class CategoryFrame(ctk.CTkFrame):
             self.category = self.words_category[0]
             return self.category
 
-    def __set_player_name(self):
-        input_dialog = ctk.CTkInputDialog(title='Player Name', text='Enter name:')
 
-        self.__window_center_root(input_dialog, 300, 150)
-
-        name = input_dialog.get_input()
-
-        if name is None or not name.isalnum():
-
-            self.ms.top_score_frame.player_label.configure(text='Guest')
-
-        else:
-
-            self.ms.top_score_frame.player_label.configure(text=name)
-
-    def __window_center_root(self, window_name, width: int, height: int):
-        """
-        Center the window in the middle of the Application window
-        """
-        multiplication_scale: int
-
-        root_height = self.ms.winfo_height()
-        root_width = self.ms.winfo_width()
-
-        root_x = self.ms.winfo_x()
-        root_y = self.ms.winfo_y()
-
-        if self.ms.scale_factor == 1:
-
-            multiplication_scale = 2
-
-        else:
-
-            multiplication_scale = 4
-
-        x = int((root_width - width) / (self.ms.scale_factor * multiplication_scale))
-        y = int((root_height - height) / 2)
-
-        window_name.geometry('{}x{}+{}+{}'.format(width, height, x + root_x, y + root_y))

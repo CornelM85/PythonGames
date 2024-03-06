@@ -22,6 +22,10 @@ class StatusImageFrame(ctk.CTkFrame):
         self.category_chosen.grid(row=1, column=0, pady=10)
 
     def set_path(self):
+        """
+        Sets the path to the image file depending on the status of the game
+        :return: path to image file (str)
+        """
         if self.ms.score_frame.get_remaining_tries() == 4:
 
             set_path = 'Images/img_1.png'
@@ -49,6 +53,9 @@ class StatusImageFrame(ctk.CTkFrame):
         return set_path
 
     def update_image(self):
+        """
+        Updates the image according to the status of the game
+        """
         if self.ms.status_frame.winfo_exists():
 
             self.ms.status_frame.destroy()

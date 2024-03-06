@@ -18,6 +18,10 @@ class SecretWordFrame(ctk.CTkFrame):
             self.box[i].grid(row=0, column=i)
 
     def get_list(self):
+        """
+        Gets the category list chosen by the player
+        :return: list(str)
+        """
 
         if self.ms.category_frame.category == 'Animals':
 
@@ -60,6 +64,10 @@ class SecretWordFrame(ctk.CTkFrame):
             return ['default']
 
     def set_text(self):
+        """
+        Sets a random word from the category list to be displayed in the secret word frame text
+        :return: str
+        """
         random_list = self.get_list()
 
         if not self.ms.category_frame.ls:
@@ -72,7 +80,9 @@ class SecretWordFrame(ctk.CTkFrame):
             return result
 
     def restart_game(self):
-
+        """
+        Restarts the game if the player chooses to do so after all the categories have been completed
+        """
         message = CTkMessagebox(master=self.ms, title='Restart', icon='question',
                                 message=f'You finished the Game!\n Restart the Game?',
                                 width=430, option_1='Yes', option_2='No', cancel_button='No')
@@ -90,7 +100,10 @@ class SecretWordFrame(ctk.CTkFrame):
             self.ms.category_frame.refresh_sc_wd_frame()
 
     def next_category(self):
-
+        """
+        Informs the player that he finished the category and move one to the next one
+        :return: list(str)
+        """
         message = CTkMessagebox(master=self.ms, title='Category finished', icon='info',
                                 message=f'You finished the "{self.ms.category_frame.category.upper()}" category!\n'
                                         f'You will continue with the next category!', width=400, height=100,

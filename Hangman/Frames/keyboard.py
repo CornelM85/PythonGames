@@ -2,7 +2,7 @@ import json
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
 
-from Utility.static_functions import create_file
+from utility_functions import create_file
 
 
 class KeyboardFrame(ctk.CTkFrame):
@@ -28,6 +28,9 @@ class KeyboardFrame(ctk.CTkFrame):
                 self.btn.grid(row=1, column=i - 13)
 
     def __on_click(self, event):
+        """
+        Displays the hidden letter in the secret word frame
+        """
         char = event.widget.master.cget('text')
 
         if char in self.ms.sc_wd_frame.text:
@@ -49,6 +52,9 @@ class KeyboardFrame(ctk.CTkFrame):
         self.status()
 
     def status(self):
+        """
+        Verifies the status of the secret word frame text
+        """
         count = 0
         for i in range(len(self.ms.sc_wd_frame.text)):
 
@@ -88,12 +94,15 @@ class KeyboardFrame(ctk.CTkFrame):
                 self.ms.category_frame.refresh_sc_wd_frame()
 
     def add_player_score_to_file(self):
+        """
+        Adds the name and the corresponding score in the JSON file
+        """
         json_file = 'high_scorers.json'
         name = self.ms.top_score_frame.player_label.cget('text')
         score = self.ms.score_frame.get_score()
         create_file(json_file)
 
-        if name != 'Guest':
+        if score != 0:
 
             with open(json_file, 'r+') as file:
                 score_dict = json.load(file)

@@ -34,6 +34,9 @@ class Score(ctk.CTkFrame):
         self.rm_tr_label_1.grid(row=2, column=1)
 
     def set_score(self):
+        """
+        Sets the displayed score in the Application
+        """
         if self.get_remaining_tries() != 0:
 
             result = self.get_score()
@@ -41,6 +44,9 @@ class Score(ctk.CTkFrame):
             self.score.set(str(result))
 
     def set_attempt(self):
+        """
+        Sets the displayed number of tries in the Application
+        """
         if self.get_remaining_tries() != 0:
 
             result = int(self.attempt.get())
@@ -48,6 +54,9 @@ class Score(ctk.CTkFrame):
             self.attempt.set(str(result))
 
     def set_remaining_tries(self):
+        """
+        Sets the displayed remaining tries in the Application
+        """
         if self.get_remaining_tries() != 0:
 
             result = self.get_remaining_tries()
@@ -55,14 +64,25 @@ class Score(ctk.CTkFrame):
             self.remaining_tries.set(str(result))
 
     def get_remaining_tries(self):
+        """
+        Gets the remaining tries displayed in the Application window
+        :return: int
+        """
         result = int(self.remaining_tries.get())
         return result
 
     def get_score(self):
+        """
+        Gets the score displayed in the Application window
+        :return: int
+        """
         result = int(self.score.get())
         return result
 
     def reset_score(self):
+        """
+        Resets the 3 values displayed in the Application window
+        """
         self.score.set(value='0')
         self.attempt.set(value='0')
         self.remaining_tries.set(value='5')
