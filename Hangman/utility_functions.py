@@ -54,11 +54,11 @@ def sort_descending_scores():
 
         sorted_list = sorted(unsorted_ls, reverse=True)
 
-        for i in range(10):
-            for k, v in file_data.items():
-                for key in v.keys():
-                    if v[key] == sorted_list[i] and len(data) < 10:
-                        data[i] = {key: sorted_list[i]}
+        for i in range(len(file_data)):
+            for k in file_data.keys():
+                for key in values_list.keys():
+                    if values_list[key] == sorted_list[i] and len(file_data) < 10:
+                        data[k] = {key: sorted_list[i]}
 
         file.seek(0)
         file.truncate()
@@ -109,4 +109,3 @@ def place_window_in_center(master, width, height, window_name=None):
         window_name.geometry('{}x{}+{}+{}'.format(width, height, x + root_x, y + root_y))
 
 
-sort_descending_scores()

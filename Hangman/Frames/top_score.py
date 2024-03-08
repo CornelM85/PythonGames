@@ -67,7 +67,7 @@ class TopScore(ctk.CTkFrame):
 
             sort_descending_scores()
 
-            with (open('high_scorers.json', 'r') as read_file):
+            with open('high_scorers.json', 'r') as read_file:
                 body = json.load(read_file)
                 values = body.values()
 
