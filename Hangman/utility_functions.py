@@ -49,15 +49,17 @@ def sort_descending_scores():
         values_list = file_data.values()
 
         for dictionary in values_list:
-            for k, v in dictionary.items():
+            for v in dictionary.values():
                 unsorted_ls.append(v)
 
         sorted_list = sorted(unsorted_ls, reverse=True)
-        for i in range(len(values_list)):
-            for values in values_list:
-                for key in values.keys():
-                    if values[key] == sorted_list[i]:
+
+        for i in range(10):
+            for k, v in file_data.items():
+                for key in v.keys():
+                    if v[key] == sorted_list[i] and len(data) < 10:
                         data[i] = {key: sorted_list[i]}
+
         file.seek(0)
         file.truncate()
         json.dump(data, file, indent=4)
@@ -107,3 +109,4 @@ def place_window_in_center(master, width, height, window_name=None):
         window_name.geometry('{}x{}+{}+{}'.format(width, height, x + root_x, y + root_y))
 
 
+sort_descending_scores()

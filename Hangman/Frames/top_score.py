@@ -8,7 +8,7 @@ class TopScore(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
-        self.window = None
+        self.__window = None
 
         self.ms = master
 
@@ -60,10 +60,10 @@ class TopScore(ctk.CTkFrame):
         """
         Displays a window on top of the Application with Top Scorers results and names
         """
-        if not self.window:
-            self.window = ctk.CTkToplevel(self.ms, fg_color='#242424')
+        if not self.__window:
+            self.__window = ctk.CTkToplevel(self.ms, fg_color='#242424')
 
-            self.window.resizable(width=False, height=False)
+            self.__window.resizable(width=False, height=False)
 
             sort_descending_scores()
 
@@ -74,24 +74,24 @@ class TopScore(ctk.CTkFrame):
                 i = 1
                 for dictionary in values:
                     for k, v in dictionary.items():
-                        add_scorers_labels(master=self.window, place_number=i, name=k, score=v)
+                        add_scorers_labels(master=self.__window, place_number=i, name=k, score=v)
                         i += 1
 
                 if len(values) < 11:
                     k = ''
                     v = ''
                     for j in range(len(values)+1, 11):
-                        add_scorers_labels(master=self.window, place_number=j, name=k, score=v)
+                        add_scorers_labels(master=self.__window, place_number=j, name=k, score=v)
 
-                ctk.CTkButton(self.window, height=20, width=50, text='OK', font=ctk.CTkFont(size=10),
+                ctk.CTkButton(self.__window, height=20, width=50, text='OK', font=ctk.CTkFont(size=10),
                               cursor='hand2', fg_color='#874B2D',
-                              command=self.window.destroy).grid(row=11, columnspan=5, padx=10, pady=5, sticky='w')
+                              command=self.__window.destroy).grid(row=11, columnspan=5, padx=10, pady=5, sticky='w')
 
-            place_window_in_center(master=self.ms, window_name=self.window, width=400, height=320)
+            place_window_in_center(master=self.ms, window_name=self.__window, width=400, height=320)
 
-            self.window.wm_transient(self.ms)
+            self.__window.wm_transient(self.ms)
 
-            self.window = None
+            self.__window = None
 
     def __on_click_edit_name(self):
         """
