@@ -65,12 +65,12 @@ class KeyboardFrame(ctk.CTkFrame):
                 self.ms.score_frame.get_remaining_tries() > 0):
 
             if (len(self.ms.category_frame.words_category) == 1
-                    and len(self.ms.sc_wd_frame.get_list()) - len(self.ms.category_frame.ls) == 0):
+                    and len(self.ms.sc_wd_frame.get_list()) - len(self.ms.category_frame.words_guessed) == 0):
 
                 self.ms.sc_wd_frame.restart_game()
 
             elif (len(self.ms.category_frame.words_category) != 1
-                    and len(self.ms.sc_wd_frame.get_list()) - len(self.ms.category_frame.ls) == 0):
+                  and len(self.ms.sc_wd_frame.get_list()) - len(self.ms.category_frame.words_guessed) == 0):
 
                 self.ms.sc_wd_frame.next_category()
 
@@ -89,7 +89,7 @@ class KeyboardFrame(ctk.CTkFrame):
 
                 self.add_player_score_to_file()
                 self.ms.score_frame.reset_score()
-                self.ms.category_frame.ls = []
+                self.ms.category_frame.words_guessed = []
                 self.status()
                 self.ms.category_frame.refresh_sc_wd_frame()
 

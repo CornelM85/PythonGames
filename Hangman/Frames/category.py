@@ -10,7 +10,7 @@ class CategoryFrame(ctk.CTkFrame):
 
         self.category = ''
 
-        self.ls = []
+        self.words_guessed = []
 
         self.words_category = ['Animals', 'House', 'Ocean', 'Space', 'Sports', 'Cities']
 
@@ -27,7 +27,7 @@ class CategoryFrame(ctk.CTkFrame):
         """
         text = event.widget.master.cget('text')
         self.ms.score_frame.reset_score()
-        self.ls = []
+        self.words_guessed = []
         self.category = text
 
         if self.ms.info_frame.winfo_exists():
@@ -70,7 +70,7 @@ class CategoryFrame(ctk.CTkFrame):
         """
         Updates the list of words used in the secret word frame
         """
-        self.ls.append(self.ms.sc_wd_frame.text.lower())
+        self.words_guessed.append(self.ms.sc_wd_frame.text.lower())
 
     def get_next_category(self):
         """

@@ -70,12 +70,12 @@ class SecretWordFrame(ctk.CTkFrame):
         """
         random_list = self.get_list()
 
-        if not self.ms.category_frame.ls:
+        if not self.ms.category_frame.words_guessed:
             result = random.choice(random_list).upper()
             return result
 
         else:
-            left_ls = list(set(random_list) - set(self.ms.category_frame.ls))
+            left_ls = list(set(random_list) - set(self.ms.category_frame.words_guessed))
             result = random.choice(left_ls).upper()
             return result
 
@@ -95,7 +95,7 @@ class SecretWordFrame(ctk.CTkFrame):
         else:
             self.ms.category_frame.words_category = ['Animals', 'House', 'Ocean', 'Space', 'Sports', 'Cities']
             self.ms.category_frame.category = 'Animals'
-            self.ms.category_frame.ls = []
+            self.ms.category_frame.words_guessed = []
             self.ms.score_frame.reset_score()
             self.ms.category_frame.refresh_sc_wd_frame()
 
@@ -114,6 +114,6 @@ class SecretWordFrame(ctk.CTkFrame):
 
             self.ms.category_frame.get_next_category()
             random_list = self.get_list()
-            self.ms.category_frame.ls = []
+            self.ms.category_frame.words_guessed = []
             result = random.choice(random_list).upper()
             return result

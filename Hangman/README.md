@@ -4,8 +4,9 @@
 <p>git clone https://github.com/CornelM85/PythonGames.git</p>
 <h4>Running the application:</h4>
 <ul>
-<li>from terminal in Windows python main.py</li>
+<li>from terminal in Windows, go to Hangman folder and run this command: <b>python main.py</b></li>
 <li>from PyCharm -> main.py -> Run</li>
+<li>from Hangman/exe_file run <b>hangman.exe</b> standalone executable (Windows only)</li>
 </ul>
 <h4>Technologies used:</h4> 
 <ul>
@@ -18,3 +19,5 @@
 <li>CTKMessagebox 2.5</li>
 <li>pillow 10.2.0</li>
 </ul>
+<h4>Game overview:</h4>
+![Image Alt Text](https://ibb.co/WPkdpTF)

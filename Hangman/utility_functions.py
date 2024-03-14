@@ -55,9 +55,9 @@ def sort_descending_scores():
         sorted_list = sorted(unsorted_ls, reverse=True)
 
         for i in range(len(file_data)):
-            for k in file_data.keys():
-                for key in values_list.keys():
-                    if values_list[key] == sorted_list[i] and len(file_data) < 10:
+            for k, v in file_data.items():
+                for key in v.keys():
+                    if v[key] == sorted_list[i] and len(file_data) < 10:
                         data[k] = {key: sorted_list[i]}
 
         file.seek(0)
@@ -77,7 +77,7 @@ def place_window_in_center(master, width, height, window_name=None):
 
     scale_factor = ctypes.windll.shcore.GetScaleFactorForDevice(0) / 100
 
-    multiplication_scale: int
+    multiplication_scale = 2
 
     if window_name is None:
 
@@ -96,12 +96,6 @@ def place_window_in_center(master, width, height, window_name=None):
 
         root_x = master.winfo_x()
         root_y = master.winfo_y()
-
-        if scale_factor == 1:
-            multiplication_scale = 2
-
-        else:
-            multiplication_scale = 4
 
         x = int((root_width - width) / (scale_factor * multiplication_scale))
         y = int((root_height - height) / 2)
