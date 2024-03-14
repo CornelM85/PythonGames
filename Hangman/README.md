@@ -20,4 +20,5 @@
 <li>pillow 10.2.0</li>
 </ul>
 <h4>Game overview:</h4>
-![Hangman Info](https://imgur.com/a/bzk9cGN)
+<img src="Images/Hangman.jpg">
+<img src="Images/Info_hangman.jpg">
