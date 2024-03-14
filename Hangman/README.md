@@ -20,4 +20,4 @@
 <li>pillow 10.2.0</li>
 </ul>
 <h4>Game overview:</h4>
-![Image Alt Text](https://ibb.co/WPkdpTF)
+<img src="https://i.ibb.co/WPkdpTF/Info-hangman.png" alt="Info-hangman">
