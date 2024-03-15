@@ -6,7 +6,8 @@
 <ul>
 <li>from terminal in Windows, go to Hangman folder and run this command: <b>python main.py</b></li>
 <li>from PyCharm -> main.py -> Run</li>
-<li>from Hangman/exe_file run <b>hangman.exe</b> standalone executable (Windows only)</li>
+<li>from Hangman/exe_file run <b>hangman.exe</b> standalone executable (Windows only) - sometimes the antivirus software
+can recognize the executable files compiled by <b>pyinstaller</b> as a <b>false Trojan virus</b></li>
 </ul>
 <h4>Technologies used:</h4> 
 <ul>
