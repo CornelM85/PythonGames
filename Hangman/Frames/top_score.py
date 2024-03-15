@@ -1,7 +1,7 @@
 import json
 import customtkinter as ctk
 
-from utility_functions import add_scorers_labels, sort_descending_scores, place_window_in_center
+from utility_functions import add_scorers_labels, sort_descending_scores, place_window_in_center, resource_path
 
 
 class TopScore(ctk.CTkFrame):
@@ -67,7 +67,7 @@ class TopScore(ctk.CTkFrame):
 
             sort_descending_scores()
 
-            with open('high_scorers.json', 'r') as read_file:
+            with open(resource_path('high_scorers.json'), 'r') as read_file:
                 body = json.load(read_file)
                 values = body.values()
 

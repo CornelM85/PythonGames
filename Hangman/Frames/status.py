@@ -1,6 +1,7 @@
 import customtkinter as ctk
 
 from PIL import Image
+from utility_functions import resource_path
 
 
 class StatusImageFrame(ctk.CTkFrame):
@@ -28,27 +29,27 @@ class StatusImageFrame(ctk.CTkFrame):
         """
         if self.ms.score_frame.get_remaining_tries() == 4:
 
-            set_path = 'Images/img_1.png'
+            set_path = resource_path('Images/img_1.png')
 
         elif self.ms.score_frame.get_remaining_tries() == 3:
 
-            set_path = 'Images/img_2.png'
+            set_path = resource_path('Images/img_2.png')
 
         elif self.ms.score_frame.get_remaining_tries() == 2:
 
-            set_path = 'Images/img_3.png'
+            set_path = resource_path('Images/img_3.png')
 
         elif self.ms.score_frame.get_remaining_tries() == 1:
 
-            set_path = 'Images/img_4.png'
+            set_path = resource_path('Images/img_4.png')
 
         elif self.ms.score_frame.get_remaining_tries() == 0:
 
-            set_path = 'Images/img_5.png'
+            set_path = resource_path('Images/img_5.png')
 
         else:
 
-            set_path = 'Images/img_0.png'
+            set_path = resource_path('Images/img_0.png')
 
         return set_path
 

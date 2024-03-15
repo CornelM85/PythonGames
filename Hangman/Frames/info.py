@@ -1,12 +1,13 @@
 import customtkinter as ctk
 from PIL import Image
+from utility_functions import resource_path
 
 
 class InfoFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
-        self.image = ctk.CTkImage(Image.open('Images/info.png'), size=(60, 100))
+        self.image = ctk.CTkImage(Image.open(resource_path('Images/info.png')), size=(60, 100))
         self.image_label = ctk.CTkLabel(self, text='', image=self.image)
         self.image_label.grid(row=0, column=0, pady=20, sticky='nsew')
 

@@ -2,7 +2,7 @@ import json
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
 
-from utility_functions import create_file
+from utility_functions import create_file, resource_path
 
 
 class KeyboardFrame(ctk.CTkFrame):
@@ -97,7 +97,7 @@ class KeyboardFrame(ctk.CTkFrame):
         """
         Adds the name and the corresponding score in the JSON file
         """
-        json_file = 'high_scorers.json'
+        json_file = resource_path('high_scorers.json')
         name = self.ms.top_score_frame.player_label.cget('text')
         score = self.ms.score_frame.get_score()
         create_file(json_file)

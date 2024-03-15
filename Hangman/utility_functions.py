@@ -1,6 +1,7 @@
 import ctypes
 import json
 import os.path
+import sys
 
 import customtkinter as ctk
 
@@ -42,7 +43,7 @@ def sort_descending_scores():
     """
     data: dict = {}
     unsorted_ls: list = []
-    json_file = 'high_scorers.json'
+    json_file = resource_path('high_scorers.json')
     create_file(json_file)
     with open(json_file, 'r+') as file:
         file_data = json.load(file)
@@ -103,3 +104,6 @@ def place_window_in_center(master, width, height, window_name=None):
         window_name.geometry('{}x{}+{}+{}'.format(width, height, x + root_x, y + root_y))
 
 
+def resource_path(relative_path):
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
