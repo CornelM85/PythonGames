@@ -105,7 +105,7 @@ class TopScore(ctk.CTkFrame):
         """
         input_dialog = ctk.CTkInputDialog(title='Player Name', text='Enter a player name (Max 15 characters):')
 
-        place_window_in_center(master=self.ms, window_name=input_dialog, width=300, height=150)
+        place_window_in_center(master=self.ms, window_name=input_dialog, width=300, height=150, multiply=True)
 
         name = input_dialog.get_input()
 
