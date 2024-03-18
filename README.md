@@ -2,3 +2,6 @@
 <ul>  
   <li><h3><a href="https://github.com/CornelM85/PythonGames/tree/main/Hangman">HangMan</a></h3></li>
 </ul>
+<ul>  
+  <li><h3><a href="https://github.com/CornelM85/PythonGames/tree/main/TicTacToe">TicTacToe</a></h3></li>
+</ul>
