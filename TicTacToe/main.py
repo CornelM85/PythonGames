@@ -14,7 +14,7 @@ class TicTacToe(ctk.CTk):
         self.resizable(width=False, height=False)
 
         self.title('Tic-tac-toe')
-        self.__title_label = ctk.CTkLabel(self, text='Tic tac toe', font=ctk.CTkFont(size=30, weight='bold'),
+        self.__title_label = ctk.CTkLabel(self, text='Tic tac toe', font=ctk.CTkFont('times', size=30, weight='bold'),
                                           text_color='white', width=458)
         self.__title_label.grid(row=0, column=0, pady=20)
 

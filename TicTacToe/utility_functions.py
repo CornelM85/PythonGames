@@ -46,3 +46,8 @@ def place_window_in_center(master, width, height, multiply=False, window_name=No
         y = int((root_height - height) / (2 * scale_factor))
 
         window_name.geometry('{}x{}+{}+{}'.format(width, height, x + root_x, y + root_y))
+
+
+def winner_list():
+    win_ls = [(0, 4, 8), (6, 7, 8), (1, 4, 7), (2, 5, 8), (2, 4, 6), (0, 1, 2), (0, 3, 6), (3, 4, 5)]
+    return win_ls
