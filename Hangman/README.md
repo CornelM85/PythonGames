@@ -4,6 +4,7 @@
 <p>git clone https://github.com/CornelM85/PythonGames.git</p>
 <h4>Running the application:</h4>
 <ul>
+<li>from the Hangman folder, install all the dependencies in the requirements.txt file with: <b>pip install library_name</b></li>
 <li>from terminal in Windows, go to Hangman folder and run this command: <b>python main.py</b></li>
 <li>from PyCharm -> main.py -> Run</li>
 <li>from Hangman/exe_file run <b>hangman.exe</b> standalone executable (Windows only) - sometimes the antivirus software
