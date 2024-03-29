@@ -2,6 +2,8 @@ import customtkinter as ctk
 
 from .boxes import BoxesFrame
 
+from utility_functions import winner_list
+
 
 class MenuFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
@@ -14,12 +16,6 @@ class MenuFrame(ctk.CTkFrame):
                                             command=self.restart_game)
         self.__new_game_btn.grid(row=0, column=0)
         self.__on_hover()
-
-        self.__game_difficulty = ctk.CTkSegmentedButton(self, values=['Easy', 'Normal', 'God Mode'], fg_color='#242424',
-                                                        selected_color='grey',font=ctk.CTkFont('times', size=20),
-                                                        unselected_color='#242424', selected_hover_color='grey',
-                                                        unselected_hover_color='#242424')
-        self.__game_difficulty.grid(row=0, column=2)
 
     def restart_game(self):
         self.ms.boxes_frame.destroy()
@@ -35,3 +31,4 @@ class MenuFrame(ctk.CTkFrame):
     def __on_hover(self):
         self.__new_game_btn.bind('<Enter>', self.__on_enter, add='+')
         self.__new_game_btn.bind('<Leave>', self.__on_leave, add='+')
+

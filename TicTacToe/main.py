@@ -14,8 +14,8 @@ class TicTacToe(ctk.CTk):
         self.resizable(width=False, height=False)
 
         self.title('Tic-tac-toe')
-        self.__title_label = ctk.CTkLabel(self, text='Tic tac toe', font=ctk.CTkFont('times', size=30, weight='bold'),
-                                          text_color='white', width=458)
+        self.__title_label = ctk.CTkLabel(self, text='Tic tac toe', text_color='white', width=458,
+                                          font=ctk.CTkFont('times', size=30, weight='bold'))
         self.__title_label.grid(row=0, column=0, pady=20)
 
         self.menu_frame = MenuFrame(master=self, fg_color='#242424')
@@ -24,7 +24,7 @@ class TicTacToe(ctk.CTk):
         self.boxes_frame = BoxesFrame(master=self, fg_color='#242424')
         self.boxes_frame.grid(row=2, column=0, padx=2)
 
-        place_window_in_center(self, height=602, width=459)
+        place_window_in_center(self, height=602, width=460)
 
 
 if __name__ == '__main__':
