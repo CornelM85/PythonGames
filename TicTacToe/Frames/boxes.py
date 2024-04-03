@@ -80,8 +80,7 @@ class BoxesFrame(ctk.CTkFrame):
                 computer_box = random.choice(boxes_left)
                 computer_box.configure(text=self.computer_s_weapon, state='disabled', text_color_disabled='white')
 
-        else:
-            self.__message('It\'s a draw! Restart the game?', opt_1='Yes', opt_2='No')
+        self.is_a_draw()
 
         self.status_check()
 
@@ -131,3 +130,12 @@ class BoxesFrame(ctk.CTkFrame):
         start = [0, 1]
         x = random.choice(start)
         return x
+
+    def is_a_draw(self):
+        box_filled = 0
+        for i in range(9):
+            if self.get_text(i) != '':
+                box_filled += 1
+
+        if box_filled == 9:
+            self.__message('It\'s a draw! Restart the game?', opt_1='Yes', opt_2='No')
