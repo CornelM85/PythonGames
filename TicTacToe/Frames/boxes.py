@@ -29,21 +29,29 @@ class BoxesFrame(ctk.CTkFrame):
                 self.boxes_list.append(self.box)
 
     def __on_click(self, event):
-
+        """
+        Actions to perform on clicking a box
+        """
         if self.player_s_choice is None:
             self.player_s_choice = self.__player_choose()
             self.set_computer_s_weapon()
+
             if self.random_player_start_game() == 0:
                 self.player_turns = (9, 7, 5, 3, 1)
             else:
-                self.computer_s_move()
+                self.__computer_s_move()
                 self.player_turns = (8, 6, 4, 2)
-        elif len(self.empty_boxes_list()) in self.player_turns:
+
+        elif len(self.__empty_boxes_list()) in self.player_turns:
             event.widget.master.configure(text=self.player_s_choice, state='disabled', text_color_disabled='white')
-            if self.status_check() != 'Winner':
-                self.after(1000, lambda: self.computer_s_move())
+
+            if self.__status_check() != 'Winner':
+                self.after(1000, lambda: self.__computer_s_move())
 
     def __player_choose(self):
+        """
+        Returns the choice of the player (X or O)
+        """
         message = CTkMessagebox(master=self.ms, title='Player\'s choice', message='Choose your weapon',
                                 icon_size=(80, 80), icon='question', option_1='O', option_2='X',
                                 font=('times', 20), justify='center')
@@ -52,15 +60,23 @@ class BoxesFrame(ctk.CTkFrame):
         return choice
 
     def set_computer_s_weapon(self):
+        """
+        Sets the computer's char for playing
+        """
         if self.player_s_choice == 'X':
             self.computer_s_weapon = 'O'
         else:
             self.computer_s_weapon = 'X'
 
-    def computer_s_move(self):
-        boxes_left = self.empty_boxes_list()
+    def __computer_s_move(self):
+        """
+        Steps to be made after the player clicks the box
+        """
+        boxes_left = self.__empty_boxes_list()
+
         if len(boxes_left) != 0:
             for x, y, z in winner_list():
+
                 if (self.get_text(x) == self.get_text(y) != '') and (self.get_text(z) == ''):
                     self.boxes_list[z].configure(text=self.computer_s_weapon,
                                                  state='disabled', text_color_disabled='white')
@@ -80,24 +96,32 @@ class BoxesFrame(ctk.CTkFrame):
                 computer_box = random.choice(boxes_left)
                 computer_box.configure(text=self.computer_s_weapon, state='disabled', text_color_disabled='white')
 
-        self.is_a_draw()
+        self.__is_a_draw()
 
-        self.status_check()
+        self.__status_check()
 
-    def empty_boxes_list(self):
+    def __empty_boxes_list(self):
+        """
+        Checking the remaining empty boxes to be played by the computer
+        """
         empty_boxes_list = []
         for box in self.boxes_list:
             if box.cget('text') == '':
                 empty_boxes_list.append(box)
         return empty_boxes_list
 
-    def status_check(self):
+    def __status_check(self):
+        """
+        Checking if the winning criteria are met
+        """
         for i in winner_list():
+
             if self.get_text(i[0]) == self.get_text(i[1]) == self.get_text(i[2]) == self.player_s_choice:
                 for j in range(3):
                     self.set_text_color(i[j], 'green')
                 self.__message('Congratulations! You win!')
                 return 'Winner'
+
             elif self.get_text(i[0]) == self.get_text(i[1]) == self.get_text(i[2]) == self.computer_s_weapon:
                 for j in range(3):
                     self.set_text_color(i[j], 'red')
@@ -105,6 +129,9 @@ class BoxesFrame(ctk.CTkFrame):
                 return 'Winner'
 
     def get_text(self, pos: int):
+        """
+        Getting the text from the desired box
+        """
         return self.boxes_list[pos].cget('text')
 
     def set_text_color(self, pos, color):
@@ -123,15 +150,21 @@ class BoxesFrame(ctk.CTkFrame):
 
         if choice == 'Yes':
             self.ms.menu_frame.restart_game()
-            self.empty_boxes_list()
+            self.__empty_boxes_list()
 
     @staticmethod
     def random_player_start_game():
+        """
+        Internal function for randomizing who plays first
+        """
         start = [0, 1]
         x = random.choice(start)
         return x
 
-    def is_a_draw(self):
+    def __is_a_draw(self):
+        """
+        Checking to see if there is a draw
+        """
         box_filled = 0
         for i in range(9):
             if self.get_text(i) != '':
